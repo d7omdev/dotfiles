@@ -41,7 +41,7 @@
     - name: Updating Homebrew
       homebrew:
         update_homebrew: true
-      become: yse
+      become: yes
       become_user: "{{ ansible_env.SUDO_USER }}"
       when: homebrew_check.stat.exists
 
