@@ -118,7 +118,7 @@ sh -c "$(curl -fsLS get.chezmoi.io)" -- init --apply abdulrahmanDev1
 - rofi Configuration
   - Refer to [adi1090x/rofi](https://github.com/adi1090x/rofi) for more information
 - kitty terminal Configuration
-  - Refer to [ttys3/my-kitty-config](https://github.com/ttys3/my-kitty-config) for more information
+  - Refer to [kitty README](./dot_config/kitty/executable_README.md) for more information
 - fastfetch Configuration
 
 **Note**: run `cat ~/.aliasesrc` to see the aliases that are configured
