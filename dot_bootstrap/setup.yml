@@ -1,5 +1,5 @@
 ---
-- name: Machine setup
+- name: Machine setup by D7OM
   hosts: localhost
   become: true
   connection: local
