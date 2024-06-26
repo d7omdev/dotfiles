@@ -17,7 +17,7 @@
       - pipx
       - zsh-syntax-highlighting
     install_homebrew_if_missing: true
-
+    upgrade_homebrew_packages: true
   pre_tasks:
     - name: Ensuring Homebrew Is Installed
       stat:
