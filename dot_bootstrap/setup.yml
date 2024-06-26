@@ -60,7 +60,9 @@
         upgrade_all: "{{ upgrade_homebrew_packages }}"
       register: result
       until: result is successful
+      become: no
       when: homebrew_check.stat.exists
+
     - name: Get my user
       ansible.builtin.set_fact:
         remote_regular_user: "{{ ansible_env.SUDO_USER or ansible_user_id }}"
