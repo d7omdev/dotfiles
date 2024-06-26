@@ -15,6 +15,7 @@
       - thefuck
       - python
       - pipx
+      - bat
       - zsh-syntax-highlighting
     install_homebrew_if_missing: true
     upgrade_homebrew_packages: true
@@ -32,7 +33,7 @@
         - not install_homebrew_if_missing
 
     - name: Installing Homebrew
-      shell: /usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
+      shell: /usr/bin/bash -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
       when:
         - not homebrew_check.stat.exists
         - install_homebrew_if_missing
@@ -220,4 +221,4 @@
     # - name: Install please-cli for Todo list -> Alias "todo"
     #   shell: pipx install please-cli
     - name: Setup Complete
-      shell: cat ../.finished
+      ansible.builtin.shell: "cat ../.finished"
