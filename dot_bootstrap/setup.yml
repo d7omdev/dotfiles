@@ -220,5 +220,4 @@
     #
     # - name: Install please-cli for Todo list -> Alias "todo"
     #   shell: pipx install please-cli
-    - name: Setup Complete
-      ansible.builtin.shell: "cat ../.finished"
+    - name: Setup Complete Enjoy :)  [ By d7om.dev ]
