@@ -207,14 +207,15 @@
         mode: "0755"
         owner: "{{ remote_regular_user }}"
 
-    - name: Check if pipx is installed
-      command: which pipx
-      register: pipx_check
-      ignore_errors: true
-
-    - name: Install pipx
-      command: python3 -m pip install --user pipx
-      when: pipx_check.rc != 0
-
-    - name: Install please-cli for TODO -> Alias "todo"
-      shell: pipx install please-cli
+    # TODO fix the problems with pipx
+    # - name: Check if pipx is installed
+    #   command: which pipx
+    #   register: pipx_check
+    #   ignore_errors: true
+    #
+    # - name: Install pipx
+    #   command: python3 -m pip install --user pipx
+    #   when: pipx_check.rc != 0
+    #
+    # - name: Install please-cli for Todo list -> Alias "todo"
+    #   shell: pipx install please-cli
