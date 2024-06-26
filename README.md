@@ -6,6 +6,16 @@ This is using [Chezmoi](https://chezmoi.io), the dotfile manager to setup the in
 
 This automated setup is currently only configured for Fedora machines.
 
+## How to use
+
+Simply run the following command:
+
+- When prompted `BECOME password:` enter your "sudo" password.
+
+```shell
+sh -c "$(curl -fsLS get.chezmoi.io)" -- init --apply abdulrahmanDev1
+```
+
 ## Preview
 
 | Application | Screenshot                                      |
@@ -13,12 +23,6 @@ This automated setup is currently only configured for Fedora machines.
 | Kitty       | <img src="./images/kitty.png" width="400"/>     |
 | fastfetch   | <img src="./images/fastfetch.png" width="400"/> |
 | nvim        | <img src="./images/nvim.png" width="400"/>      |
-
-## How to run
-
-```shell
-sh -c "$(curl -fsLS get.chezmoi.io)" -- init --apply abdulrahmanDev1
-```
 
 ## What does it do?
 
