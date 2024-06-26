@@ -1,0 +1,149 @@
+# ZSH Configuration
+
+# Path to your oh-my-zsh installation (commented out)
+# export ZSH="$HOME/.oh-my-zsh"
+
+# Znap
+[[ -r ~/Repos/znap/znap.zsh ]] || git clone --depth 1 -- https://github.com/marlonrichert/zsh-snap.git ~/Repos/znap
+source ~/Repos/znap/znap.zsh
+
+# Aliases
+source ~/.aliasesrc
+
+# Environment variables
+export PATH="$PATH:/opt/nvim-linux64/bin"
+export BUN_INSTALL="$HOME/.bun"
+export PATH=$BUN_INSTALL/bin:$PATH
+export PNPM_HOME="/home/d7om/.local/share/pnpm"
+export NVM_DIR="$HOME/.nvm"
+export PATH="$PATH:/mnt/c/Program\ Files/Microsoft\ VS\ Code/bin"
+export PATH=~/.console-ninja/.bin:$PATH
+export EDITOR=nvim
+export PATH=$PATH:/home/d7om/.spicetify
+
+# Atuin
+. "$HOME/.atuin/bin/env"
+
+# pnpm
+case ":$PATH:" in
+  *":$PNPM_HOME:"*) ;;
+  *) export PATH="$PNPM_HOME:$PATH" ;;
+esac
+
+# nvm
+[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
+[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"
+
+# Linuxbrew
+eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
+
+# fzf catppuccin theme
+export FZF_DEFAULT_OPTS=" \
+--color=bg+:#414559,bg:#303446,spinner:#f2d5cf,hl:#e78284 \
+--color=fg:#c6d0f5,header:#e78284,info:#ca9ee6,pointer:#f2d5cf \
+--color=marker:#f2d5cf,fg+:#c6d0f5,prompt:#ca9ee6,hl+:#e78284"
+
+
+
+# Zinit
+if [[ ! -f $HOME/.local/share/zinit/zinit.git/zinit.zsh ]]; then
+    print -P "%F{33} %F{220}Installing %F{33}ZDHARMA-CONTINUUM%F{220} Initiative Plugin Manager (%F{33}zdharma-continuum/zinit%F{220})…%f"
+    command mkdir -p "$HOME/.local/share/zinit" && command chmod g-rwX "$HOME/.local/share/zinit"
+    command git clone https://github.com/zdharma-continuum/zinit "$HOME/.local/share/zinit/zinit.git" && \
+        print -P "%F{33} %F{34}Installation successful.%f%b" || \
+        print -P "%F{160} The clone has failed.%f%b"
+fi
+
+source "$HOME/.local/share/zinit/zinit.git/zinit.zsh"
+autoload -Uz _zinit
+(( ${+_comps} )) && _comps[zinit]=_zinit
+
+# Load Zinit annexes
+zinit light-mode for \
+    zdharma-continuum/zinit-annex-as-monitor \
+    zdharma-continuum/zinit-annex-bin-gem-node \
+    zdharma-continuum/zinit-annex-patch-dl \
+    zdharma-continuum/zinit-annex-rust
+
+# Zoxide
+eval "$(zoxide init zsh)"
+
+# Loading Plugins
+zinit load atuinsh/atuin
+zinit light zsh-users/zsh-syntax-highlighting
+zinit light Aloxaf/fzf-tab
+
+# zsh-autosuggestions
+source ~/.zsh/zsh-autosuggestions/zsh-autosuggestions.zsh
+
+# Functions
+function yy() {
+	local tmp="$(mktemp -t "yazi-cwd.XXXXXX")"
+	yazi "$@" --cwd-file="$tmp"
+	if cwd="$(cat -- "$tmp")" && [ -n "$cwd" ] && [ "$cwd" != "$PWD" ]; then
+		cd -- "$cwd"
+	fi
+	rm -f -- "$tmp"
+}
+
+function t() {
+  if [[ -z "$1" ]]; then
+    tmux
+  else
+    tmux has-session -t "$1" 2>/dev/null
+    if [[ $? -eq 0 ]]; then
+      tmux attach-session -t "$1"
+    else
+      tmux new-session -s "$1"
+    fi
+  fi
+}
+
+function tr() {
+  if [[ -z "$1" ]]; then
+    echo "Please provide a name."
+  elif [[ "$1" == "w" ]]; then
+    tmux rename-window "$2"
+  else
+    tmux rename-session "$1"
+  fi
+}
+
+bindkey -s '^f' 'ff\n'
+
+# Powerlevel10k
+zinit ice depth=1; zinit light romkatv/powerlevel10k
+[[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
+
+# bun completions
+[ -s "/home/d7om/.bun/_bun" ] && source "/home/d7om/.bun/_bun"
+
+# fzf theme
+#
+# zstyle ':fzf-tab:*' fzf-command ftb-tmux-popup
+export FZF_TMUX_OPTS="-p"
+zstyle ':fzf-tab:complete:*:*' fzf-preview 'less ${(Q)realpath}'
+export LESSOPEN='|~/.lessfilter %s'
+
+
+export FZF_DEFAULT_OPTS=$FZF_DEFAULT_OPTS'
+  --color=fg:#c6d0f5,fg+:#c6d0f5,bg:-1,bg+:#414559
+  --color=hl:#e78284,hl+:#e78284,info:#ca9ee6,marker:#fb9580
+  --color=prompt:#ca9ee6,spinner:#f2d5cf,pointer:#f2d5cf,header:#e78284
+  --color=border:#262626,label:#aeaeae,query:#d9d9d9
+  --border="rounded" --border-label="" --preview-window="border-rounded" --prompt="❯"
+  --marker="➜" --pointer="◆" --separator="─" --scrollbar="│|"
+  --info="right"'
+#-------------------------------->
+#
+export EDITOR=nvim
+
+if [ -z "$TMUX" ]; then
+  t Main
+fi
+
+eval $(thefuck --alias tf)
+
+
+# Created by `pipx` on 2024-06-25 23:08:35
+export PATH="$PATH:/home/d7om/.local/bin"

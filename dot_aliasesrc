@@ -1,0 +1,87 @@
+# Basic commands
+alias c='clear'
+alias l='ls -lh --color=auto'
+alias ls='ls -1 --color=auto'
+alias ll='ls -lha --color=auto --group-directories-first'
+alias ld='ls -lhD --color=auto'
+alias cd="z"
+alias ..='cd ..'
+alias ...='cd ../..'
+alias .3='cd ../../..'
+alias .4='cd ../../../..'
+alias .5='cd ../../../../..'
+alias mkdir='mkdir -p'
+alias rm='rmtrash'
+alias rmdir='rmdirtrash'
+alias cat="bat"
+
+# Package management
+alias un='sudo apt remove'
+alias up='sudo apt update && sudo apt upgrade'
+alias al='apt list --installed'
+alias as='apt search'
+alias pc='sudo apt autoremove'
+alias ao='sudo apt autoremove'
+alias update="sudo dnf update"
+alias upgrade="sudo dnf upgrade"
+alias install="sudo dnf install"
+alias remove="sudo dnf remove"
+alias si="snap install"
+alias bri="brew install"
+
+# pnpm commands
+alias pn="pnpm"
+alias pns="pnpm start"
+alias pni="pnpm i"
+alias pna="pnpm add"
+alias pnr="pnpm rm"
+alias pnu="pnpm up"
+alias pnd="pnpm dev"
+
+# bun commands
+alias bs="bun start"
+alias bd="bun dev"
+alias ba="bun add"
+alias bi="bun i"
+alias bu="bun update"
+alias br="bun remove"
+
+# Git commands
+alias gt="git"
+alias gts="gt status"
+alias gtc="gt clone"
+alias gtp="gt pull"
+alias gta="gt add"
+alias gtC="gt commit"
+alias glog="gt log --pretty --oneline"
+alias gtr="git remote"
+alias gtP="git push"
+
+# Neovim and code editor commands
+alias v="nvim"
+alias rc="v ~/.bashrc"
+alias zrc="v ~/.zshrc"
+alias c.="code ."
+alias ff="fzf --preview 'bat --color=always {}' --preview-window '~3' | xargs -I {} nvim {}"
+
+# Other commands
+alias vc='code --ozone-platform-hint=wayland --disable-gpu'
+alias ze="zellij"
+alias n="nnn"
+alias f="fastfetch"
+alias src="source ~/.zshrc"
+alias su="sudo su"
+alias ls="eza --header --icons --time-style relative --no-user"
+alias ll="eza -a -l --header --icons --time-style relative --no-user"
+alias l="eza -l --header --icons --time-style relative --no-user"
+alias lt="eza --icons --tree"
+alias y="yazi"
+alias Cc="xsel --input --clipboard"
+alias Cv="xsel --output --clipboard"
+alias cargo_watch="cargo-watch -qc -x run -x clippy"
+alias e="nautilus ."
+alias lg="lazygit"
+alias own="sudo chmod -R 755 /home/$whoami/"
+alias df="duf"
+alias todo="please"
+alias cmoi="chezmoi"
