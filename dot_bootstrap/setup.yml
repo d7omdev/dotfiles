@@ -220,8 +220,8 @@
     # - name: Install please-cli for Todo list -> Alias "todo"
     #   shell: pipx install please-cli
     - name: Setup Complete
-      ansible.builtin.debug:
-        msg: |
+      shell: >
+        echo 
           " _____ _       _     _              _ "
           "|  ___(_)_ __ (_)___| |__   ___  __| |"
           "| |_  | | '_ \| / __| '_ \ / _ \/ _` |"
