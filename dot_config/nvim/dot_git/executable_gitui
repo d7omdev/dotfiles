@@ -1,0 +1,10 @@
+(
+    tab: 0,
+    diff: (
+        ignore_whitespace: false,
+        context: 3,
+        interhunk_lines: 0,
+    ),
+    status_show_untracked: None,
+    commit_msgs: [],
+)

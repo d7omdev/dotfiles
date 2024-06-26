@@ -1,0 +1,3 @@
+LazyVim
+Neovim
+WhichKey
