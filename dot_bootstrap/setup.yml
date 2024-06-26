@@ -16,7 +16,7 @@
       - python
       - pipx
       - zsh-syntax-highlighting
-    install_homebrew_if_missing: false
+    install_homebrew_if_missing: true
 
   pre_tasks:
     - name: Ensuring Homebrew Is Installed
