@@ -10,8 +10,8 @@ map("n", "<C-a>", "ggVG", { noremap = true, silent = true })
 -- Exit insert mode with 'jj' in insert mode
 map("i", "jj", "<Esc>", { noremap = true, silent = true })
 
+-- search and replace using regex
 map("n", "zz", ":'<,'>s//<Left>", { noremap = true, silent = true })
 
+-- Exit with 'qq' in normal mode
 map("n", "qq", ":q<CR>", { noremap = true, silent = true })
-map("i", "qq", ":q<CR>", { noremap = true, silent = true })
-map("v", "qq", ":q<CR>", { noremap = true, silent = true })

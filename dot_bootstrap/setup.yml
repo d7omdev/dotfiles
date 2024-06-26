@@ -81,6 +81,7 @@
           - zsh
           - fzf
           - tmux
+          - kitty
           - openssl-devel
           - gdbm-libs
           - libnsl2
