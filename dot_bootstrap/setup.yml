@@ -72,7 +72,7 @@
         name:
           - git
           - btop
-          - nvim
+          - neovim
           - firefox
           - gh
           - gnome-tweaks
