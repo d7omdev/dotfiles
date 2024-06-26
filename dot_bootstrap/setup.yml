@@ -220,4 +220,8 @@
     #
     # - name: Install please-cli for Todo list -> Alias "todo"
     #   shell: pipx install please-cli
-    - name: Setup Complete Enjoy :)  [ By d7om.dev ]
+    - name: Setup Complete
+      command: cat ../.finished
+      register: finished
+
+    - debug: var=finished.stdout_lines
