@@ -49,6 +49,8 @@
       homebrew:
         name: "{{ brew_packages }}"
         state: present
+      become: yse
+      become_user: "{{ ansible_env.SUDO_USER }}"
       register: result
       until: result is successful
       when: homebrew_check.stat.exists
