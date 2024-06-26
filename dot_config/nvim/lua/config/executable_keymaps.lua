@@ -12,4 +12,6 @@ map("i", "jj", "<Esc>", { noremap = true, silent = true })
 
 map("n", "zz", ":'<,'>s//<Left>", { noremap = true, silent = true })
 
-map(["n", "i", 'v'],"qq",   ":q<CR>", { noremap = true, silent = true })
+map("n", "qq", ":q<CR>", { noremap = true, silent = true })
+map("i", "qq", ":q<CR>", { noremap = true, silent = true })
+map("v", "qq", ":q<CR>", { noremap = true, silent = true })
