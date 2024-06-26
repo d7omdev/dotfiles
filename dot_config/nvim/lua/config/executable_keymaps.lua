@@ -15,3 +15,10 @@ map("n", "zz", ":'<,'>s//<Left>", { noremap = true, silent = true })
 
 -- Exit with 'qq' in normal mode
 map("n", "qq", ":q<CR>", { noremap = true, silent = true })
+
+-- Permanent delete line with 'd' in normal mode
+map("n", "d", "_d", { noremap = true, silent = true })
+-- Permanent delete line with 'd' in visual mode
+map("v", "d", "_d", { noremap = true, silent = true })
+
+map("n", "p", "_dp", { noremap = true, silent = true })
