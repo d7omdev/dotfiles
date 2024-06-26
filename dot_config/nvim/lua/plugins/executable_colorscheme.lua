@@ -13,7 +13,7 @@ return {
 			colorscheme = "catppuccin",
 		},
 	},
-	require("lazy").setup({
+	{
 		"DaikyXendo/nvim-material-icon",
-	}),
+	},
 }
