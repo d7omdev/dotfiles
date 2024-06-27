@@ -209,6 +209,22 @@
         mode: "0755"
         owner: "{{ remote_regular_user }}"
 
+    - name: Check if ~/.config/nvim exists
+      stat:
+        path: "~{{ remote_regular_user }}/.config/nvim"
+      register: nvim_config_check
+
+    - name: Backup existing nvim config
+      command: mv "~{{ remote_regular_user }}/.config/nvim" "~{{ remote_regular_user }}/.config/nvim.bak"
+      when: nvim_config_check.stat.exists
+
+    - name: Clone nvim config from GitHub
+      git:
+        repo: "https://github.com/abdulrahmanDev1/nvim.git"
+        dest: "~{{ remote_regular_user }}/.config/nvim"
+        clone: yes
+        update: yes
+
     # TODO fix the problems with pipx
     # - name: Check if pipx is installed
     #   command: which pipx
