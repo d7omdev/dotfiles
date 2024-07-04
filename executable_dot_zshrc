@@ -144,5 +144,6 @@ fi
 
 eval $(thefuck --alias tf)
 
+export HOMEBREW_AUTO_UPDATE_SECS=0
 # Created by `pipx` on 2024-06-25 23:08:35
 export PATH="$PATH:/home/d7om/.local/bin"
