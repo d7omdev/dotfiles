@@ -140,7 +140,9 @@ export FZF_DEFAULT_OPTS=$FZF_DEFAULT_OPTS'
 export EDITOR=nvim
 
 # Startup session selector
-sesh connect "$(sesh list -i | gum filter --limit 1 --placeholder 'Pick a sesh' --prompt='⚡')"
+if [ -z "$TMUX" ]; then
+  sesh connect "$(sesh list -i | gum filter --limit 1 --placeholder 'Pick a sesh' --prompt='⚡')"
+fi
 
 eval $(thefuck --alias tf)
 
