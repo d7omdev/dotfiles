@@ -17,6 +17,7 @@
       - pipx
       - bat
       - zsh-syntax-highlighting
+      - joshmedeski/sesh/sesh
     install_homebrew_if_missing: true
     upgrade_homebrew_packages: true
   pre_tasks:
