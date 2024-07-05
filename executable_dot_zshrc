@@ -141,6 +141,10 @@ export EDITOR=nvim
 
 # Startup session selector
 if [ -z "$TMUX" ]; then
+  MAIN_SESSION=$(tmux ls | grep -o "^Main")
+  if [ -z "$MAIN_SESSION" ]; then
+    tmux new-session -d -s Main -c ~
+  fi
   sesh connect "$(sesh list -i | gum filter --limit 1 --placeholder 'Pick a sesh' --prompt='⚡')"
 fi
 
