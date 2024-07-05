@@ -1,9 +1,9 @@
 # Basic commands
 alias c='clear'
-alias l='ls -lh --color=auto'
-alias ls='ls -1 --color=auto'
-alias ll='ls -lha --color=auto --group-directories-first'
-alias ld='ls -lhD --color=auto'
+alias l='ls -lh --color=auto --hyperlink'
+alias ls='ls -1 --color=auto --hyperlink'
+alias ll='ls -lha --color=auto --group-directories-first --hyperlink'
+alias ld='ls -lhD --color=auto --hyperlink'
 alias cd="z"
 alias ..='cd ..'
 alias ...='cd ../..'
