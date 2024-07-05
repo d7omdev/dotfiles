@@ -119,8 +119,7 @@ zinit ice depth=1; zinit light romkatv/powerlevel10k
 [ -s "/home/d7om/.bun/_bun" ] && source "/home/d7om/.bun/_bun"
 
 # fzf theme
-#
-zstyle ':fzf-tab:*' fzf-command ftb-tmux-popup
+# zstyle ':fzf-tab:*' fzf-command ftb-tmux-popup
 export FZF_TMUX_OPTS="-p"
 zstyle ':fzf-tab:complete:*:*' fzf-preview 'less ${(Q)realpath}'
 export LESSOPEN='|~/.lessfilter %s'
