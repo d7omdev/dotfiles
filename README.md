@@ -124,6 +124,7 @@ sh -c "$(curl -fsLS get.chezmoi.io)" -- init --apply abdulrahmanDev1
 - kitty terminal Configuration
   - Refer to [kitty README](./dot_config/kitty/executable_README.md) for more information
 - fastfetch Configuration
+- Bat configuration
 
 **Note**: run `cat ~/.aliasesrc` to see the aliases that are configured
 
