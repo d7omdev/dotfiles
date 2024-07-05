@@ -120,12 +120,10 @@ zinit ice depth=1; zinit light romkatv/powerlevel10k
 
 # fzf theme
 #
-# zstyle ':fzf-tab:*' fzf-command ftb-tmux-popup
+zstyle ':fzf-tab:*' fzf-command ftb-tmux-popup
 export FZF_TMUX_OPTS="-p"
 zstyle ':fzf-tab:complete:*:*' fzf-preview 'less ${(Q)realpath}'
 export LESSOPEN='|~/.lessfilter %s'
-
-zstyle ':fzf-tab:*' fzf-command ftb-tmux-popup
 
 export FZF_DEFAULT_OPTS=$FZF_DEFAULT_OPTS'
   --color=fg:#c6d0f5,fg+:#c6d0f5,bg:-1,bg+:#414559
