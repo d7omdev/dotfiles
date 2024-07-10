@@ -14,7 +14,7 @@ alias mkdir='mkdir -p'
 alias rm='rmtrash'
 alias rmdir='rmdirtrash'
 alias cat="bat"
-alias note="v +<execute 'ObsidianNew ' . input('Enter a name: ')>"
+alias note="v -c '<execute 'ObsidianNew ' . input('Enter a name: ')'"
 
 # Package management
 alias un='sudo apt remove'
