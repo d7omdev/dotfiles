@@ -29,7 +29,7 @@ move_files "mp3 m4a flac aac ogg wav" Audio_Files
 move_files "mp4 mov avi mpg mpeg webm mpv mp2 wmv" Video_Files
 
 # PDFs
-move_files "pdf docx doc" PDFs_Files
+move_files "pdf docx doc ppt pptx" PDFs_Files
 
 # Scripts
 move_files "py rb sh run" Scripts
