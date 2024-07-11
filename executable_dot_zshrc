@@ -1,8 +1,5 @@
 # ZSH Configuration
 
-# Path to your oh-my-zsh installation (commented out)
-# export ZSH="$HOME/.oh-my-zsh"
-
 # Znap
 [[ -r ~/Repos/znap/znap.zsh ]] || git clone --depth 1 -- https://github.com/marlonrichert/zsh-snap.git ~/Repos/znap
 source ~/Repos/znap/znap.zsh
@@ -14,12 +11,10 @@ source ~/.aliasesrc
 export PATH="$PATH:/opt/nvim-linux64/bin"
 export BUN_INSTALL="$HOME/.bun"
 export PATH=$BUN_INSTALL/bin:$PATH
-export PNPM_HOME="/home/d7om/.local/share/pnpm"
+export PNPM_HOME="$HOME/.local/share/pnpm"
 export NVM_DIR="$HOME/.nvm"
-export PATH="$PATH:/mnt/c/Program\ Files/Microsoft\ VS\ Code/bin"
 export PATH=~/.console-ninja/.bin:$PATH
 export EDITOR=nvim
-export PATH=$PATH:/home/d7om/.spicetify
 
 # Atuin
 . "$HOME/.atuin/bin/env"
@@ -116,7 +111,7 @@ zinit ice depth=1; zinit light romkatv/powerlevel10k
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
 
 # bun completions
-[ -s "/home/d7om/.bun/_bun" ] && source "/home/d7om/.bun/_bun"
+[ -s "$HOME/.bun/_bun" ] && source "$HOME/.bun/_bun"
 
 # fzf theme
 # zstyle ':fzf-tab:*' fzf-command ftb-tmux-popup
@@ -150,7 +145,6 @@ fi
 
 eval $(thefuck --alias tf)
 
-
 # Sesh kebinds to manage tmux sessions
 # Alt - s
 function sesh-sessions() {
@@ -175,5 +169,3 @@ export NVM_DIR="$HOME/.config/nvm"
 [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
 
 export HOMEBREW_AUTO_UPDATE_SECS=0
-# Created by `pipx` on 2024-06-25 23:08:35
-export PATH="$PATH:/home/d7om/.local/bin"
