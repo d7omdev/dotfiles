@@ -17,7 +17,6 @@
       - pipx
       - bat
       - zsh-syntax-highlighting
-      - joshmedeski/sesh/sesh
       - gum
       - watchman
     install_homebrew_if_missing: true
