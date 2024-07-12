@@ -185,7 +185,7 @@
           - us.zoom.Zoom
           - org.gnome.World.PikaBackup
           - com.mattjakeman.ExtensionManager
-          - org.freedesktop.Platform
+          - org.freedesktop.Platform/x86_64/23.08
           - nl.hjdskes.gcolor3
         state: present
 
