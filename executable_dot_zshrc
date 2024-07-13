@@ -14,6 +14,11 @@ export PATH=$BUN_INSTALL/bin:$PATH
 export PNPM_HOME="$HOME/.local/share/pnpm"
 export NVM_DIR="$HOME/.nvm"
 export PATH=~/.console-ninja/.bin:$PATH
+export ANDROID_HOME=$HOME/Android/Sdk
+export PATH=$PATH:$ANDROID_HOME/emulator
+export PATH=$PATH:$ANDROID_HOME/platform-tools
+export PATH=$PATH:$HOME/go/bin/
+export PATH=$PATH:/home/linuxbrew/.linuxbrew/bin/go
 export EDITOR=nvim
 
 # Atuin
@@ -129,12 +134,6 @@ export FZF_DEFAULT_OPTS=$FZF_DEFAULT_OPTS'
   --info="right"'
 #-------------------------------->
 
-# Exports
-export EDITOR=nvim
-export ANDROID_HOME=$HOME/Android/Sdk
-export PATH=$PATH:$ANDROID_HOME/emulator
-export PATH=$PATH:$ANDROID_HOME/platform-tools
-export PATH=$PATH:$HOME/go/bin/
 # Startup session selector
 if [ -z "$TMUX" ]; then
   MAIN_SESSION=$(tmux ls | grep -o "^Main")
