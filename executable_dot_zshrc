@@ -134,6 +134,7 @@ export EDITOR=nvim
 export ANDROID_HOME=$HOME/Android/Sdk
 export PATH=$PATH:$ANDROID_HOME/emulator
 export PATH=$PATH:$ANDROID_HOME/platform-tools
+export PATH=$HOME/go/bin/
 # Startup session selector
 if [ -z "$TMUX" ]; then
   MAIN_SESSION=$(tmux ls | grep -o "^Main")
