@@ -19,6 +19,7 @@
       - zsh-syntax-highlighting
       - gum
       - watchman
+      - golang
     install_homebrew_if_missing: true
     upgrade_homebrew_packages: true
   pre_tasks:
