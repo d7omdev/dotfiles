@@ -230,4 +230,4 @@
         update: yes
 
     - name: Setup Complete
-      command: /home/linuxbrew/.linuxbrew/bin/figlet -t -c Finished -f larry3d
+

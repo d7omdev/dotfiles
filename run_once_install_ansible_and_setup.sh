@@ -44,4 +44,6 @@ fi
 
 ansible-playbook ~/.bootstrap/setup.yml --ask-become-pass
 
+figlet -t -c Finished -f larry3d
+
 echo "Ansible installation complete."
