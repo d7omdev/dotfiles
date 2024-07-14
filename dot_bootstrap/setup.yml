@@ -20,6 +20,7 @@
       - gum
       - watchman
       - golang
+      - figlet
     install_homebrew_if_missing: true
     upgrade_homebrew_packages: true
   pre_tasks:
@@ -228,20 +229,5 @@
         clone: yes
         update: yes
 
-    # TODO fix the problems with pipx
-    # - name: Check if pipx is installed
-    #   command: which pipx
-    #   register: pipx_check
-    #   ignore_errors: true
-    #
-    # - name: Install pipx
-    #   command: python3 -m pip install --user pipx
-    #   when: pipx_check.rc != 0
-    #
-    # - name: Install please-cli for Todo list -> Alias "todo"
-    #   shell: pipx install please-cli
     - name: Setup Complete
-      command: cat ../.finished
-      register: finished
-
-    - debug: var=finished.stdout_lines
+      command: figlet -t -c Finished -f larry3d
