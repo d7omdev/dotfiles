@@ -228,6 +228,3 @@
         dest: "~{{ remote_regular_user }}/.config/nvim"
         clone: yes
         update: yes
-
-    - name: Setup Complete
-
