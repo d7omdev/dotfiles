@@ -1,20 +1,20 @@
 #!/bin/bash
 
 install_on_fedora() {
-    sudo dnf install -y ansible
+    sudo dnf install -y ansible git
 }
 
 install_on_ubuntu() {
     sudo apt-get update
-    sudo apt-get install -y ansible
+    sudo apt-get install -y ansible git
 }
 
 install_on_mac() {
-    brew install ansible
+    brew install ansible git
 }
 
 install_on_arch() {
-    sudo pacman -Syu --noconfirm ansible
+    sudo pacman -Syu --noconfirm ansible git
 }
 
 OS="$(uname -s)"
@@ -39,10 +39,6 @@ Darwin*)
     exit 1
     ;;
 esac
-
-if ! command -v git &>/dev/null; then
-    sudo dnf install git -y
-fi
 
 if [ ! -d "$HOME/.tmux/plugins/tpm" ]; then
     git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
