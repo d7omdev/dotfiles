@@ -13,6 +13,10 @@ install_on_mac() {
     brew install ansible
 }
 
+install_on_arch() {
+    sudo pacman -Syu --noconfirm ansible
+}
+
 OS="$(uname -s)"
 case "${OS}" in
 Linux*)
@@ -20,6 +24,8 @@ Linux*)
         install_on_fedora
     elif [ -f /etc/lsb-release ]; then
         install_on_ubuntu
+    elif [ -f /etc/arch-release ]; then
+        install_on_arch
     else
         echo "Unsupported Linux distribution"
         exit 1
@@ -42,7 +48,11 @@ if [ ! -d "$HOME/.tmux/plugins/tpm" ]; then
     git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
 fi
 
-ansible-playbook ~/.bootstrap/setup.yml --ask-become-pass
+if [ -f /etc/arch-release ]; then
+    ansible-playbook ~/.bootstrap/setup-arch.yml --ask-become-pass
+else
+    ansible-playbook ~/.bootstrap/setup.yml --ask-become-pass
+fi
 
 figlet -t -c Finished -f larry3d
 
