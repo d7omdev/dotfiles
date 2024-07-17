@@ -135,13 +135,13 @@ export FZF_DEFAULT_OPTS=$FZF_DEFAULT_OPTS'
 #-------------------------------->
 
 # Startup session selector
-# if [ -z "$TMUX" ]; then
-#   MAIN_SESSION=$(tmux ls | grep -o "^Main")
-#   if [ -z "$MAIN_SESSION" ]; then
-#     tmux new-session -d -s Main -c ~
-#   fi
+if [ -z "$TMUX" ]; then
+  MAIN_SESSION=$(tmux ls | grep -o "^Home")
+  if [ -z "$MAIN_SESSION" ]; then
+    tmux new-session -d -s Home -c ~
+  fi
 sesh connect "$(sesh list -i | gum filter --limit 1 --placeholder 'Pick a sesh' --prompt='⚡')"
-# fi
+fi
 
 eval $(thefuck --alias tf)
 
