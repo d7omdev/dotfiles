@@ -21,9 +21,6 @@ export PATH=$PATH:$HOME/go/bin/
 export PATH=$PATH:/home/linuxbrew/.linuxbrew/bin/go
 export EDITOR=nvim
 
-# Atuin
-. "$HOME/.atuin/bin/env"
-
 # pnpm
 case ":$PATH:" in
   *":$PNPM_HOME:"*) ;;
