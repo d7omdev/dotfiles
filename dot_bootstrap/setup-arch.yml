@@ -79,7 +79,6 @@
           - btop
           - neovim
           - firefox
-          - gh
           - gnome-tweaks
           - ripgrep
           - zsh
@@ -100,11 +99,6 @@
       ansible.builtin.user:
         name: "{{ remote_regular_user }}"
         shell: /usr/bin/zsh
-
-    - name: Install Brave Browser
-      community.general.pacman:
-        name: brave
-        state: present
 
     - name: Install VS Code
       community.general.pacman:

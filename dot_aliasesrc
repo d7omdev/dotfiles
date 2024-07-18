@@ -17,18 +17,15 @@ alias cat="bat"
 alias note='v -c "execute \"ObsidianNew \" . input(\"Enter a note name: \")"'
 
 # Package management
-alias un='sudo apt remove'
-alias up='sudo apt update && sudo apt upgrade'
-alias al='apt list --installed'
-alias as='apt search'
-alias pc='sudo apt autoremove'
-alias ao='sudo apt autoremove'
-alias update="sudo dnf update"
-alias upgrade="sudo dnf upgrade"
-alias install="sudo dnf install"
-alias remove="sudo dnf remove"
+alias ur='sudo pacman -R'           # Uninstall a package
+alias up='sudo pacman -Syu'         # Update package list and upgrade all packages
+alias li='pacman -Qe'               # List explicitly installed packages
+alias se='pacman -Ss'               # Search for a package in the repositories
+alias pc='sudo pacman -Rns $(pacman -Qdtq)'  # Clean up orphaned packages
+alias in='sudo pacman -S'           # Install a package
 alias si="snap install"
 alias bri="brew install"
+alias brr="brew remove" 
 
 # pnpm commands
 alias pn="pnpm"
