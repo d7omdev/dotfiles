@@ -19,13 +19,12 @@ install_on_arch() {
 
 while true; do
     echo "Please enter your password to add the 'organize' script to the bin (Press enter to skip): "
-    read -s password
 
     if [ -z "$password" ]; then
         echo "Skipped adding 'organize' to the bin due to no password entry."
         break
     else
-        echo $password | sudo -S mv organize /usr/local/bin/organize >/dev/null 2>&1
+        sudo -S mv organize /usr/local/bin/organize >/dev/null 2>&1
         if [ $? -eq 0 ]; then
             echo "'Organize' script has been added to the bin successfully."
             break
