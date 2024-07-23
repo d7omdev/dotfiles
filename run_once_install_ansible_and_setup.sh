@@ -17,7 +17,7 @@ install_on_arch() {
     sudo pacman -Syu --noconfirm ansible git
 }
 
-sudo mv organize /usr/local/bin/organize
+sudo -S mv organize /usr/local/bin/organize
 
 OS="$(uname -s)"
 case "${OS}" in
