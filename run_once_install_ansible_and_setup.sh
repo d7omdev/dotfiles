@@ -17,8 +17,8 @@ install_on_arch() {
     sudo pacman -Syu --noconfirm ansible git
 }
 
-echo "Please enter your password to add the 'organize' script to the bin (Press enter to skip): "
-sudo -S mv organize /usr/local/bin/organize
+echo "Please enter your password to add the 'organize' script to the bin "
+sudo -S mv executable_organize /usr/local/bin/organize
 
 OS="$(uname -s)"
 case "${OS}" in
