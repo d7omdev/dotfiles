@@ -4,7 +4,7 @@
 PWD=$(pwd)
 
 # Create Folders
-declare -a dirs=("Image_Files" "Audio_Files" "Video_Files" "PDF_Files" "Scripts" "Compressed_Files" "Fedora" "Web" "Torrents" "CSVs" "ISO" "Text_Files" "Encrypted_Files" "Folders")
+declare -a dirs=("Image_Files" "Audio_Files" "Video_Files" "PDF_Files" "Scripts" "Compressed_Files" "Packages" "Web" "Torrents" "CSVs" "ISO" "Text_Files" "Encrypted_Files" "Folders")
 
 for dir in "${dirs[@]}"; do
     [ -d "$PWD/$dir" ] || mkdir "$PWD/$dir"
@@ -45,8 +45,8 @@ move_files "py rb sh run" "$PWD/Scripts"
 # Compressed Files
 move_files "rar zip xz gz zst" "$PWD/Compressed_Files"
 
-# Fedora Files
-move_files "rpm flatpakref" "$PWD/Fedora"
+# Packages Files
+move_files "rpm flatpakref" "$PWD/Packages"
 
 # Web Files
 move_files "html json css js" "$PWD/Web"
