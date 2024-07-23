@@ -17,22 +17,8 @@ install_on_arch() {
     sudo pacman -Syu --noconfirm ansible git
 }
 
-while true; do
-    echo "Please enter your password to add the 'organize' script to the bin (Press enter to skip): "
-
-    if [ -z "$password" ]; then
-        echo "Skipped adding 'organize' to the bin due to no password entry."
-        break
-    else
-        sudo -S mv organize /usr/local/bin/organize >/dev/null 2>&1
-        if [ $? -eq 0 ]; then
-            echo "'Organize' script has been added to the bin successfully."
-            break
-        else
-            echo "Failed to add 'organize' to the bin. Please check your password and try again."
-        fi
-    fi
-done
+echo "Please enter your password to add the 'organize' script to the bin (Press enter to skip): "
+sudo -S mv organize /usr/local/bin/organize
 
 OS="$(uname -s)"
 case "${OS}" in
