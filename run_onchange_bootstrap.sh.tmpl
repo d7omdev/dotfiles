@@ -13,17 +13,14 @@ Linux*)
         if command -v ansible-playbook &>/dev/null; then
             ansible-playbook {{ joinPath .chezmoi.sourceDir "dot_bootstrap/setup.yml" | quote }} --ask-become-pass
         fi
-    elif [ -f /etc/lsb-release ]; then
-        install_on_ubuntu
     elif [ -f /etc/arch-release ]; then
-        install_on_arch
+        if command -v ansible-playbook &>/dev/null; then
+            ansible-playbook {{ joinPath .chezmoi.sourceDir "dot_bootstrap/setup-arch.yml" | quote }} --ask-become-pass
+        fi
     else
         echo "Unsupported Linux distribution"
         exit 1
     fi
-    ;;
-Darwin*)
-    install_on_mac
     ;;
 *)
     echo "Unsupported operating system: ${OS}"
