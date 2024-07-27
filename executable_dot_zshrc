@@ -20,6 +20,8 @@ export PATH=$PATH:$ANDROID_HOME/platform-tools
 export PATH=$PATH:$HOME/go/bin/
 export PATH=$PATH:/home/linuxbrew/.linuxbrew/bin/go
 export EDITOR=nvim
+export DOTNET_ROOT=$HOME/.dotnet
+export PATH=$PATH:$DOTNET_ROOT:$DOTNET_ROOT/tools
 
 # pnpm
 case ":$PATH:" in
