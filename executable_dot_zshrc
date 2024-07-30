@@ -168,3 +168,4 @@ export NVM_DIR="$HOME/.config/nvm"
 [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
 
 export HOMEBREW_AUTO_UPDATE_SECS=0
+export QT_QPA_PLATFORM=xcb
