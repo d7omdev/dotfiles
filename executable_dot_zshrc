@@ -160,6 +160,13 @@ bindkey -M emacs '\es' sesh-sessions
 bindkey -M vicmd '\es' sesh-sessions
 bindkey -M viins '\es' sesh-sessions
 
+sudo_last_command() {
+    zle -U "sudo !!"
+    zle accept-line
+}
+
+bindkey '^S' sudo_last_command
+
 # NVM
 export NVM_DIR="$HOME/.config/nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
