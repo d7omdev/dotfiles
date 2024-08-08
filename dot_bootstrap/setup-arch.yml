@@ -100,11 +100,6 @@
         name: "{{ remote_regular_user }}"
         shell: /usr/bin/zsh
 
-    - name: Install VS Code
-      community.general.pacman:
-        name: code
-        state: present
-
     - name: Install Docker
       community.general.pacman:
         name:
@@ -150,9 +145,17 @@
         path: "~{{ remote_regular_user }}/.config/nvim"
       register: nvim_config_check
 
+    - name: Ask the user if they want to install D7OM's Neovim config
+      pause:
+        prompt: "Do you want to install D7OM's Neovim config? (yes/no)"
+      register: confirm_install
+      when: nvim_config_check.stat.exists
+
     - name: Backup existing nvim config
       command: mv "~{{ remote_regular_user }}/.config/nvim" "~{{ remote_regular_user }}/.config/nvim.bak"
-      when: nvim_config_check.stat.exists
+      when:
+        - nvim_config_check.stat.exists
+        - confirm_install.user_input == "yes"
 
     - name: Clone nvim config from GitHub
       git:
@@ -160,3 +163,6 @@
         dest: "~{{ remote_regular_user }}/.config/nvim"
         clone: yes
         update: yes
+      when:
+        - nvim_config_check.stat.exists == false
+        - confirm_install is undefined or confirm_install.user_input == "yes"
