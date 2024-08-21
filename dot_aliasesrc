@@ -43,6 +43,7 @@ alias ba="bun add"
 alias bi="bun i"
 alias bu="bun update"
 alias br="bun remove"
+alias bn="bun run"
 
 # Git commands
 alias gt="git"
