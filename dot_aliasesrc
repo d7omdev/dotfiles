@@ -38,7 +38,7 @@ alias pnd="pnpm dev"
 
 # bun commands
 alias bs="bun start"
-alias bd="bun dev"
+alias bnd="bun dev"
 alias ba="bun add"
 alias bi="bun i"
 alias bu="bun update"
