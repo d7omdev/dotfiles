@@ -12,7 +12,7 @@ alias .4='cd ../../../..'
 alias .5='cd ../../../../..'
 alias mkdir='mkdir -p'
 alias rm='rmtrash'
-alias rmdir='rmdirtrash'
+alias rmdir='rm -rf'
 alias cat="bat"
 alias note='v -c "execute \"ObsidianNew \" . input(\"Enter a note name: \")"'
 
@@ -52,7 +52,7 @@ alias gtc="gt clone"
 alias gtp="gt pull"
 alias gta="gt add"
 alias gtC="gt commit"
-alias glog="gt log --pretty --oneline"
+alias glog="git log --graph --pretty=format:'%C(yellow)%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr)%Creset' --abbrev-commit --date=relative"
 alias gtr="git remote"
 alias gtP="git push"
 
@@ -86,3 +86,4 @@ alias todo="please"
 alias cmoi="chezmoi"
 alias conf="cmoi edit"
 # alias nuget="mono /usr/local/bin/nuget.exe"
+alias resolve='prime-run /opt/resolve/bin/resolve > /dev/null 2>&1 & disown'

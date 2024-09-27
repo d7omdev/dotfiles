@@ -36,6 +36,7 @@ esac
 # Linuxbrew
 eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
 
+
 # Zinit
 if [[ ! -f $HOME/.local/share/zinit/zinit.git/zinit.zsh ]]; then
     print -P "%F{33} %F{220}Installing %F{33}ZDHARMA-CONTINUUM%F{220} Initiative Plugin Manager (%F{33}zdharma-continuum/zinit%F{220})…%f"
@@ -136,14 +137,9 @@ export FZF_DEFAULT_OPTS=$FZF_DEFAULT_OPTS'
 
 # Startup session selector
 if [ -z "$TMUX" ]; then
-  MAIN_SESSION=$(tmux ls | grep -o "^Home")
-  if [ -z "$MAIN_SESSION" ]; then
-    tmux new-session -d -s Home -c ~
-  fi
-sesh connect "$(sesh list -i | gum filter --limit 1 --placeholder 'Pick a sesh' --prompt='⚡')"
+  sesh connect "$(sesh list -i | gum filter --limit 1 --placeholder 'Pick a sesh' --prompt='⚡')"
 fi
 
-eval $(thefuck --alias tf)
 
 # Sesh kebinds to manage tmux sessions
 # Alt - s
@@ -172,3 +168,8 @@ export NVM_DIR="$HOME/.config/nvm"
 
 export HOMEBREW_AUTO_UPDATE_SECS=0
 export QT_QPA_PLATFORM=xcb
+
+export PATH=$PATH:/home/d7om/.spicetify
+
+# Created by `pipx` on 2024-09-21 09:05:53
+export PATH="$PATH:/home/d7om/.local/bin"

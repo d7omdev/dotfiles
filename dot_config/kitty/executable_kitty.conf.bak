@@ -3,9 +3,9 @@
 # https://sw.kovidgoyal.net/kitty/conf/
 
 # To get a full list of supported fonts use the `kitty +list-fonts` command.
-font_family     IosevkaTerm Nerd Font
-#font_family      JetBrainsMono Nerd Font
-font_size 11.0
+# font_family     IosevkaTerm Nerd Font
+font_family      JetBrainsMono Nerd Font 
+font_size 14.0
 
 scrollback_lines 8000
 
@@ -104,8 +104,8 @@ tab_title_template "{fmt.fg.red}{bell_symbol}{activity_symbol}{fmt.fg.tab}{index
 
 #: The foreground and background colors
 
-#background_opacity 0.95
-background_opacity 1.0
+# background_opacity 0.8
+# background_opacity 1.0
 
 
 
@@ -178,6 +178,7 @@ allow_hyperlinks yes
 #: will ask before opening the link when clicked.
 
 shell_integration enabled
+shell_integration no-cursor
 
 #: Enable shell integration on supported shells. This enables features
 #: such as jumping to previous prompts, browsing the output of the
@@ -204,7 +205,8 @@ kitty_mod ctrl+shift
 map kitty_mod+enter no-op
 map cmd+enter       no-op
 
-
+# Disable ctrl+tab 
+map ctrl+tab no_op
 
 map ctrl+a>x close_window
 
@@ -273,7 +275,7 @@ map ctrl+a>shift+d     debug_config
 
 
 # BEGIN_KITTY_THEME
-# Dark One Nuanced
+# Catppuccin-Frappe
 include current-theme.conf
 # END_KITTY_THEME
 
@@ -287,4 +289,50 @@ map f3 kitten hints --program '*'
 # https://github.com/console-rs/console/pull/84
 # map double ctrl+a to ctrl+a (home)
 map ctrl+a>ctrl+a send_text all \x01
+
+cursor_shape Beam
+
+map ctrl+c copy_and_clear_or_interrupt
+map ctrl+v paste_from_clipboard
+map ctrl+q none
+
+
+# Don't intercept the following key strokes to make zsh-shift-select work.
+map ctrl+shift+left no_op
+map ctrl+shift+right no_op
+map ctrl+shift+home no_op
+map ctrl+shift+end no_op
+
+
+# Bind Ctrl+Alt+W to Up Arrow
+map alt+w send_text all \x1b[A
+
+# Bind Ctrl+Alt+A to Left Arrow
+map alt+a send_text all \x1b[D
+
+# Bind Ctrl+Alt+S to Down Arrow
+map alt+s send_text all \x1b[B
+
+# Bind Ctrl+Alt+D to Right Arrow
+map alt+d send_text all \x1b[C
+
+
+
+map shift+left no_op
+map shift+right no_op
+
+# jump to beginning and end of word
+map ctrl+left send_text all \x1b\x62
+map ctrl+right send_text all \x1b\x66
+
+# jump to beginning and end of line
+#map alt+left send_text all \x01
+#map alt+right send_text all \x05
+
+background_blur 1 
+bell_on_tab no
+enable_audio_bell no
+hide_window_decorations yes
+titlebar-only no
+window_padding_width 5 0.5
 
