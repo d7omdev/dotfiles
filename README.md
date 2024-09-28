@@ -13,7 +13,7 @@ Simply run the following command:
 - When prompted `BECOME password:` enter your "sudo" password.
 
 ```shell
-sh -c "$(curl -fsLS get.chezmoi.io)" -- init --apply abdulrahmanDev1
+sh -c "$(curl -fsLS get.chezmoi.io)" -- init --apply d7omdev
 ```
 
 ## Preview
