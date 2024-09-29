@@ -87,4 +87,4 @@ alias cmoi="chezmoi"
 alias conf="cmoi edit"
 # alias nuget="mono /usr/local/bin/nuget.exe"
 alias resolve='prime-run /opt/resolve/bin/resolve > /dev/null 2>&1 & disown'
-dr='nohup distrobox-enter Resolve-Fedora-39 -- bash -c "__GLX_VENDOR_LIBRARY_NAME=nvidia /opt/resolve/bin/resolve" &>/dev/null 2>&1 & disown'
+dr='setsid distrobox-enter Resolve-Fedora-39 -- bash -c "__GLX_VENDOR_LIBRARY_NAME=nvidia /opt/resolve/bin/resolve" &>/dev/null 2>&1 &'
