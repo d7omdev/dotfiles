@@ -173,3 +173,6 @@ export PATH=$PATH:/home/d7om/.spicetify
 
 # Created by `pipx` on 2024-09-21 09:05:53
 export PATH="$PATH:/home/d7om/.local/bin"
+
+HOMEBREW_PREFIX=$(brew --prefix)
+export FPATH="${HOMEBREW_PREFIX}/share/zsh/site-functions:${FPATH}"
