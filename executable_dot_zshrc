@@ -114,7 +114,12 @@ zinit ice depth=1; zinit light romkatv/powerlevel10k
 # zstyle ':fzf-tab:*' fzf-command ftb-tmux-popup
 export FZF_TMUX_OPTS="-p"
 zstyle ':fzf-tab:complete:*:*' fzf-preview 'less ${(Q)realpath}'
-source /home/d7om/Packages/fzf-tab-source/fzf-tab-source.plugin.zsh
+
+if [[ ! -d $HOME/Packages/fzf-tab-source ]]; then
+  mkdir -p $HOME/Packages/
+  git clone https://github.com/Freed-Wu/fzf-tab-source $HOME/Packages/fzf-tab-source
+fi
+source $HOME/Packages/fzf-tab-source/fzf-tab-source.plugin.zsh
 
 
 # Fzf theme
@@ -169,7 +174,12 @@ export NVM_DIR="$HOME/.config/nvm"
 export HOMEBREW_AUTO_UPDATE_SECS=0
 export QT_QPA_PLATFORM=xcb
 
-export PATH=$PATH:/home/d7om/.spicetify
+export PATH=$PATH:$HOME/.spicetify
+
+autoload -Uz compinit
+compinit
+
+fpath=(/usr/share/zsh/site-functions $fpath)
 
 # Created by `pipx` on 2024-09-21 09:05:53
 export PATH="$PATH:/home/d7om/.local/bin"

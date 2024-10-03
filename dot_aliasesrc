@@ -88,3 +88,4 @@ alias conf="cmoi edit"
 # alias nuget="mono /usr/local/bin/nuget.exe"
 alias resolve='prime-run /opt/resolve/bin/resolve > /dev/null 2>&1 & disown'
 alias dr='~/launch_resolve.sh'
+alias win='/home/d7om/connect-windows.sh'
