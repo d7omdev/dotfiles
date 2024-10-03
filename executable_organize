@@ -25,31 +25,31 @@ move_files() {
 }
 
 # Image Files
-move_files "png svg jpg jpeg tif tiff bpm gif eps raw webp" "$PWD/Image_Files"
+move_files "png svg jpg jpeg tif tiff bpm gif eps raw webp bmp ico" "$PWD/Image_Files"
 
 # Audio Files
-move_files "mp3 m4a flac aac ogg wav" "$PWD/Audio_Files"
+move_files "mp3 m4a flac aac ogg wav wma" "$PWD/Audio_Files"
 
 # Video Files
-move_files "mp4 mov avi mpg mpeg webm mpv mp2 wmv" "$PWD/Video_Files"
+move_files "mp4 mov avi mpg mpeg webm mpv mp2 wmv mkv" "$PWD/Video_Files"
 
 # PDFs
-move_files "pdf docx doc ppt pptx xlsx" "$PWD/PDF_Files"
+move_files "pdf docx doc ppt pptx xlsx xls odt ods odp" "$PWD/PDF_Files"
 
 # Text Files
-move_files "txt md" "$PWD/Text_Files"
+move_files "txt md yaml yml rtf" "$PWD/Text_Files"
 
 # Scripts
-move_files "py rb sh run" "$PWD/Scripts"
+move_files "py rb sh run js ts" "$PWD/Scripts"
 
 # Compressed Files
-move_files "rar zip xz gz zst" "$PWD/Compressed_Files"
+move_files "rar zip xz gz zst tar bz2 7z" "$PWD/Compressed_Files"
 
 # Packages Files
-move_files "rpm flatpakref" "$PWD/Packages"
+move_files "rpm flatpakref appimage deb" "$PWD/Packages"
 
 # Web Files
-move_files "html json css js" "$PWD/Web"
+move_files "html json css js xml" "$PWD/Web"
 
 # Torrents
 move_files "torrent" "$PWD/Torrents"
@@ -61,7 +61,7 @@ move_files "csv" "$PWD/CSVs"
 move_files "iso" "$PWD/ISO"
 
 # Encrypted Files
-move_files "asc" "$PWD/Encrypted_Files"
+move_files "asc gpg" "$PWD/Encrypted_Files"
 
 # Move other directories
 for dir in */; do
