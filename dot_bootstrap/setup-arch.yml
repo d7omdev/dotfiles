@@ -21,14 +21,49 @@
       - watchman
       - golang
       - figlet
+    aur_packages:
+      - pika-backup
+      - mission-center
+      - timeshift
+      - grub-btrfs
+      - timeshift-autosnap
+      - sesh-bin
+      - github-cli
+      - ttf-jetbrains-mono-nerd
     install_homebrew_if_missing: true
     upgrade_homebrew_packages: true
 
   tasks:
-
     - name: Get my user
       ansible.builtin.set_fact:
         remote_regular_user: "{{ ansible_env.SUDO_USER or ansible_user_id }}"
+
+    - name: Install yay
+      block:
+        - name: Check if yay is installed
+          command: which yay
+          register: yay_check
+          ignore_errors: true
+          changed_when: false
+
+        - name: Clone yay repo
+          git:
+            repo: https://aur.archlinux.org/yay.git
+            dest: /tmp/yay
+          when: yay_check.rc != 0
+          become: false
+
+        - name: Build and install yay
+          command:
+            cmd: makepkg -si --noconfirm
+            chdir: /tmp/yay
+          when: yay_check.rc != 0
+          become: false
+
+    - name: Install AUR packages
+      become: false
+      command: yay -S --noconfirm {{ item }}
+      loop: "{{ aur_packages }}"
 
     - name: Install required packages for Arch (pacman)
       community.general.pacman:
@@ -55,51 +90,86 @@
           - docker-compose
         state: present
 
-    - name: Install Homebrew dependencies for Arch (pacman)
-      community.general.pacman:
-        name:
-          - git
-          - base-devel
-          - gcc
-          - openssl
-          - procps
-          - curl
-        state: present
+    - name: Configure grub-btrfsd service
+      copy:
+        dest: /etc/systemd/system/grub-btrfsd.service
+        content: |
+          [Unit]
+          Description=Regenerate grub-btrfs.cfg
+          
+          [Service]
+          Type=simple
+          LogLevelMax=notice
+          Environment="PATH=/sbin:/bin:/usr/sbin:/usr/bin"
+          EnvironmentFile=/etc/default/grub-btrfs/config
+          ExecStart=/usr/bin/grub-btrfsd --syslog --timeshift-auto
+          
+          [Install]
+          WantedBy=multi-user.target
+
+    - name: Configure grub-btrfs
+      blockinfile:
+        path: /etc/default/grub-btrfs/config
+        create: yes
+        block: |
+          GRUB_BTRFS_SNAPSHOT_KERNEL="/boot/vmlinuz-linux"
+          GRUB_BTRFS_SNAPSHOT_INITRAMFS="/boot/initramfs-linux.img"
+          GRUB_BTRFS_LIMIT="50"
+          GRUB_BTRFS_SHOW_SNAPSHOTS_FOUND="true"
+          GRUB_BTRFS_SHOW_TOTAL_SNAPSHOTS_FOUND="true"
+          GRUB_BTRFS_SUBMENUNAME="Snapshots"
+          GRUB_BTRFS_TITLE_FORMAT="timeshift-auto-snap"
+
+    - name: Reload systemd daemon
+      systemd:
+        daemon_reload: yes
+
+    - name: Enable and start required services
+      systemd:
+        name: "{{ item }}"
+        enabled: yes
+        state: started
+      loop:
+        - grub-btrfsd
+        - timeshift-autosnap.service
 
     - name: Check if Homebrew is already installed
       ansible.builtin.stat:
         path: /home/linuxbrew/.linuxbrew/bin/brew
       register: homebrew_exists
 
-    - name: Install Homebrew on Arch Linux
-      ansible.builtin.shell: |
-        echo | /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
-      when: homebrew_exists.stat.exists == false
+    - name: Install Homebrew
+      block:
+        - name: Download Homebrew install script
+          get_url:
+            url: https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh
+            dest: /tmp/brew_install.sh
+            mode: '0755'
+          become: false
 
-    - name: Add Homebrew to PATH
-      ansible.builtin.shell: |
-        echo 'eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"' >> /home/{{ remote_regular_user }}/.profile
-        eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
-      when: homebrew_exists.stat.exists == false
-      become: false
+        - name: Install Homebrew
+          command: /bin/bash /tmp/brew_install.sh
+          become: false
+          when: not homebrew_exists.stat.exists
+
+        - name: Add Homebrew to PATH in .zshrc
+          lineinfile:
+            path: "/home/{{ remote_regular_user }}/.zshrc"
+            line: 'eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"'
+            create: yes
+          become: false
 
     - name: Upgrade Homebrew packages
-      ansible.builtin.command: /home/linuxbrew/.linuxbrew/bin/brew upgrade
-      become: false 
-      when: homebrew_exists.stat.exists == true and upgrade_homebrew_packages == true
+      command: /home/linuxbrew/.linuxbrew/bin/brew upgrade
+      become: false
+      when: homebrew_exists.stat.exists and upgrade_homebrew_packages
 
     - name: Install packages via Homebrew
       community.general.homebrew:
         name: "{{ item }}"
         state: present
       loop: "{{ brew_packages }}"
-      become: false 
-      when: homebrew_exists.stat.exists == true
-
-    - name: Change shell to zsh
-      ansible.builtin.user:
-        name: "{{ remote_regular_user }}"
-        shell: /usr/bin/zsh
+      become: false
 
     - name: Add Docker group
       ansible.builtin.group:
@@ -112,27 +182,10 @@
         groups: docker
         append: true
 
-    - name: Ensure fonts directory exists
-      ansible.builtin.file:
-        path: "/home/{{ remote_regular_user }}/.fonts"
-        state: directory
-        mode: "0755"
-        owner: "{{ remote_regular_user }}"
-
-    - name: Check if JetBrains Mono font exists
-      ansible.builtin.shell: "ls /home/{{ remote_regular_user }}/.fonts/JetBrainsMonoNerd*FontMono*"
-      register: jetbrains_mono_exists
-      ignore_errors: true
-      changed_when: false
-
-    - name: Download JetBrains Mono font if missing
-      when: jetbrains_mono_exists is failed
-      ansible.builtin.unarchive:
-        src: https://github.com/ryanoasis/nerd-fonts/releases/download/v3.1.1/JetBrainsMono.zip
-        dest: "/home/{{ remote_regular_user }}/.fonts/"
-        remote_src: true
-        mode: "0755"
-        owner: "{{ remote_regular_user }}"
+    - name: Change shell to zsh
+      ansible.builtin.user:
+        name: "{{ remote_regular_user }}"
+        shell: /usr/bin/zsh
 
     - name: Check if ~/.config/nvim exists
       stat:
@@ -157,6 +210,6 @@
         dest: "/home/{{ remote_regular_user }}/.config/nvim"
         clone: yes
         update: yes
+      become: false
       when:
-        - nvim_config_check.stat.exists == false
-        - confirm_install is undefined or confirm_install.user_input == "yes"
+        - not nvim_config_check.stat.exists or confirm_install.user_input == "yes"
