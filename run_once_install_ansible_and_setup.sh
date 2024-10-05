@@ -20,28 +20,17 @@ OS="$(uname -s)"
 
 case "${OS}" in
 Linux*)
-    # Detect Linux distribution and install appropriate packages
-    if [ -f /etc/fedora-release ]; then
-        echo "Detected Fedora-based system. Installing packages..."
-        sudo dnf install -y ansible git
-    elif [ -f /etc/arch-release ]; then
+    # Detect Arch-based Linux distribution and install appropriate packages
+    if [ -f /etc/arch-release ]; then
         echo "Detected Arch-based system. Installing packages..."
         sudo pacman -Syu --noconfirm ansible git
     else
-        echo "Unsupported Linux distribution"
+        echo "Unsupported Linux distribution. This script only supports Arch-based systems."
         exit 1
     fi
-    ;;
-Darwin*)
-    # For macOS, install using Homebrew
-    if ! command -v brew &>/dev/null; then
-        echo "Homebrew is not installed. Please install Homebrew first: https://brew.sh"
-        exit 1
-    fi
-    brew install ansible git
     ;;
 *)
-    echo "Unsupported operating system: ${OS}"
+    echo "Unsupported operating system: ${OS}. This script only supports Arch-based systems."
     exit 1
     ;;
 esac
@@ -58,11 +47,20 @@ else
     echo "TPM already installed."
 fi
 
-# Run the appropriate Ansible playbook based on the system
-if [ -f /etc/arch-release ]; then
-    ansible-playbook ~/.bootstrap/setup-arch.yml --ask-become-pass
+# Run the Ansible playbook for Arch-based systems
+ansible-playbook ~/.bootstrap/setup-arch.yml --ask-become-pass
+
+# Check if .cache/setup-pika-backup.sh exists and run it
+if [ -f "$HOME/.cache/setup-pika-backup.sh" ]; then
+    echo "Running setup-pika-backup.sh..."
+    bash "$HOME/.cache/setup-pika-backup.sh"
+    if [ $? -ne 0 ]; then
+        echo "Failed to execute setup-pika-backup.sh"
+        exit 1
+    fi
+    echo "setup-pika-backup.sh ran successfully."
 else
-    ansible-playbook ~/.bootstrap/setup.yml --ask-become-pass
+    echo "setup-pika-backup.sh not found in .cache"
 fi
 
 # Display a message when finished
@@ -72,5 +70,4 @@ else
     echo "Finished"
 fi
 
-# End with a link to the user's website
 echo "Visit: https://d7om.dev"

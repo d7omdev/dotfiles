@@ -1,9 +1,7 @@
 #!/bin/bash
 
-# .bootstrap/setup.yml hash: {{ include "dot_bootstrap/setup.yml" | sha256sum }}
-
 if [ -f /etc/arch-release ]; then
     ansible-playbook ~/.bootstrap/setup-arch.yml --ask-become-pass
 else
-    ansible-playbook ~/.bootstrap/setup.yml --ask-become-pass
+    echo "Unsupported OS"
 fi

@@ -131,7 +131,6 @@
         state: started
       loop:
         - grub-btrfsd
-        - timeshift-autosnap.service
 
     - name: Check if Homebrew is already installed
       ansible.builtin.stat:
