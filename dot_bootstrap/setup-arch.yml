@@ -31,7 +31,7 @@
       - github-cli
       - ttf-jetbrains-mono-nerd
       - scrcpy
-      - adb
+      - android-tools
       - appimagelauncher
     install_homebrew_if_missing: true
     upgrade_homebrew_packages: true
