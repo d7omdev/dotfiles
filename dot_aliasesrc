@@ -25,6 +25,7 @@ alias search='yay -Ss'             # Search for a package in the repositories
 alias cleanup='yay -Rns $(yay -Qdtq)'  # Clean up orphaned packages
 alias in='yay -S'             # Install a package
 alias rip="expac --timefmt='%Y-%m-%d %T' '%l\t%n %v' | sort | tail -200 | nl" # Recent installed packages
+alias please='sudo $(fc -ln -1)'
 alias si="snap install"
 alias bri="brew install"
 alias brr="brew remove" 
