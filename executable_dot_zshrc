@@ -184,5 +184,14 @@ compinit
 
 fpath=(/usr/share/zsh/site-functions $fpath)
 
+source /home/linuxbrew/.linuxbrew/share/zsh-abbr/zsh-abbr.zsh
+
+if type brew &>/dev/null; then
+    FPATH=$(brew --prefix)/share/zsh-abbr:$FPATH
+
+    autoload -Uz compinit
+    compinit
+  fi
+
 # Created by `pipx` on 2024-09-21 09:05:53
 export PATH="$PATH:/home/d7om/.local/bin"

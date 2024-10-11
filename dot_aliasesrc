@@ -15,6 +15,7 @@ alias rm='rmtrash'
 alias rmdir='rm -rf'
 alias cat="bat"
 alias note='v -c "execute \"ObsidianNew \" . input(\"Enter a note name: \")"'
+alias jctl="journalctl -p 3 -xb"
 
 # Package management
 alias un='yay -R'           # Uninstall a package
@@ -23,6 +24,7 @@ alias list-installed='yay -Qe'     # List explicitly installed packages
 alias search='yay -Ss'             # Search for a package in the repositories
 alias cleanup='yay -Rns $(yay -Qdtq)'  # Clean up orphaned packages
 alias in='yay -S'             # Install a package
+alias rip="expac --timefmt='%Y-%m-%d %T' '%l\t%n %v' | sort | tail -200 | nl" # Recent installed packages
 alias si="snap install"
 alias bri="brew install"
 alias brr="brew remove" 
