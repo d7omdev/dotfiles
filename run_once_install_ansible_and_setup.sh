@@ -63,6 +63,9 @@ else
     echo "setup-pika-backup.sh not found in .cache"
 fi
 
+# Move the local.conf file to /etc/fonts
+sudo mv $HOME/local.conf /etc/fonts/local.conf
+
 # Display a message when finished
 if command -v figlet &>/dev/null; then
     figlet -t -c Finished -f larry3d

@@ -33,6 +33,7 @@
       - scrcpy
       - android-tools
       - appimagelauncher
+      - ttf-amiri
     install_homebrew_if_missing: true
     upgrade_homebrew_packages: true
 
