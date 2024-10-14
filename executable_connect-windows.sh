@@ -48,6 +48,8 @@ if ! ps -p $FREERDP_PID >/dev/null; then
     echo "[$(date)] Failed to connect to Windows 11 at $IP_ADDRESS" >>"$LOG_FILE"
     echo "Errors found in the log file: $LOG_FILE"
     exit 1
+if [[ "$VM_STATUS" == "running" ]]; then
+return 0
 else
     echo "[$(date)] Successfully connected to Windows 11 at $IP_ADDRESS"
     notify-send "Connected to Windows 11" "Enjoy your session!"
