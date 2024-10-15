@@ -1,0 +1,6 @@
+[submodule "hypr"]
+	path = hypr
+	url = https://github.com/d7omdev/hypr
+[submodule "ags"]
+    path = ags
+    url = https://githuh.com/d7omdev/ags
