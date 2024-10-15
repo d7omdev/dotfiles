@@ -193,5 +193,8 @@ if type brew &>/dev/null; then
     compinit
   fi
 
+setopt extended_glob
+setopt correct
+
 # Created by `pipx` on 2024-09-21 09:05:53
 export PATH="$PATH:/home/d7om/.local/bin"
