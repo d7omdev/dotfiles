@@ -25,6 +25,7 @@ export PATH=$PATH:$DOTNET_ROOT:$DOTNET_ROOT/tools
 export __GLX_VENDOR_LIBRARY_NAME=nvidia
 export __GL_SYNC_TO_VBLANK=0
 export __GL_SYNC_DISPLAY_DEVICE=DP-0
+export HYPRSHOT_DIR=$HOME/Pictures/Screenshots/
 
 # pnpm
 case ":$PATH:" in
