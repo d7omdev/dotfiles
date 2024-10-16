@@ -70,7 +70,7 @@ alias ff="fzf --preview 'bat --color=always {}' --preview-window '~3' | xargs -I
 alias vc='code --ozone-platform-hint=wayland --disable-gpu'
 alias ze="zellij"
 alias n="nnn"
-alias f="fastfetch"
+alias f="fastfetch --logo none"
 alias src="source ~/.zshrc"
 alias su="sudo su"
 alias ls="eza --header --icons --time-style relative --no-user"
