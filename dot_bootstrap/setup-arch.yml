@@ -35,6 +35,7 @@
       - appimagelauncher
       - ttf-amiri
       - hyprshot
+      - keyd
     install_homebrew_if_missing: true
     upgrade_homebrew_packages: true
 
@@ -217,3 +218,51 @@
       become: false
       when:
         - not nvim_config_check.stat.exists or confirm_install.user_input == "yes"
+
+    - name: WASD to arrow key mapping
+      pause:
+        prompt: "Do you want to set up 'ALt + WASD' to arrow key mapping using keyd? (yes/no)"
+      register: setup_keyd
+      become: false
+
+    - name: Set up keyd configuration
+      block:
+        - name: Create keyd config directory
+          file:
+            path: /etc/keyd
+            state: directory
+            mode: '0755'
+
+        - name: Create keyd configuration file
+          copy:
+            dest: /etc/keyd/default.conf
+            content: |
+              [ids]
+              *
+
+              [main]
+              # Map WASD to arrow keys when alt is pressed
+              alt.w = up
+              alt.s = down
+              alt.a = left
+              alt.d = right
+
+              [alt]
+              # This section ensures other alt combinations still work normally
+              w = up
+              s = down
+              a = left
+              d = right
+            mode: '0644'
+
+        - name: Enable and start keyd service
+          systemd:
+            name: keyd
+            enabled: yes
+            state: started
+            daemon_reload: yes
+
+        - name: Apply keyd configuration
+          command: keyd reload
+          
+      when: setup_keyd.user_input | lower == 'yes'
