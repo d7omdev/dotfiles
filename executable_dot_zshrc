@@ -9,6 +9,7 @@ source ~/.aliasesrc
 
 # Environment variables
 export PATH="$PATH:/opt/nvim-linux64/bin"
+export PATH="$PATH:/home/d7om/.bun/bin"
 export BUN_INSTALL="$HOME/.bun"
 export PATH=$BUN_INSTALL/bin:$PATH
 export PNPM_HOME="$HOME/.local/share/pnpm"
