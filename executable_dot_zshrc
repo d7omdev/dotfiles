@@ -70,8 +70,6 @@ zinit load atuinsh/atuin
 zinit light zsh-users/zsh-syntax-highlighting
 zinit light Aloxaf/fzf-tab
 
-# zsh-autosuggestions
-source ~/.zsh/zsh-autosuggestions/zsh-autosuggestions.zsh
 
 # Functions
 function yy() {
@@ -109,22 +107,12 @@ function tr() {
 bindkey -s '^f' 'ff\n'
 
 # Powerlevel10k
-zinit ice depth=1; zinit light romkatv/powerlevel10k
-[[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
+# zinit ice depth=1; zinit light romkatv/powerlevel10k
+# [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
 
 # bun completions
 [ -s "$HOME/.bun/_bun" ] && source "$HOME/.bun/_bun"
 
-# fzf theme
-# zstyle ':fzf-tab:*' fzf-command ftb-tmux-popup
-export FZF_TMUX_OPTS="-p"
-zstyle ':fzf-tab:complete:*:*' fzf-preview 'less ${(Q)realpath}'
-
-if [[ ! -d $HOME/Packages/fzf-tab-source ]]; then
-  mkdir -p $HOME/Packages/
-  git clone https://github.com/Freed-Wu/fzf-tab-source $HOME/Packages/fzf-tab-source
-fi
-source $HOME/Packages/fzf-tab-source/fzf-tab-source.plugin.zsh
 
 
 # Fzf theme
@@ -143,6 +131,18 @@ export FZF_DEFAULT_OPTS=$FZF_DEFAULT_OPTS'
   --border="rounded" --border-label="" --preview-window="border-rounded" --prompt="❯"
   --marker="|" --pointer="◆" --separator="─" --scrollbar="│|"
   --info="right"'
+
+  # fzf tab
+  zstyle ':fzf-tab:*' use-fzf-default-opts yes
+  zstyle ':fzf-tab:complete:cd:*' fzf-preview 'eza -1 --color=always $realpath'
+  zstyle ':completion:*:git-checkout:*' sort false
+  zstyle ':fzf-tab:*' fzf-command ftb-tmux-popup
+  zstyle ':fzf-tab:*' popup-min-size 50 8
+  if [[ ! -d $HOME/Packages/fzf-tab-source ]]; then
+    mkdir -p $HOME/Packages/
+    git clone https://github.com/Freed-Wu/fzf-tab-source $HOME/Packages/fzf-tab-source
+  fi
+  source $HOME/Packages/fzf-tab-source/fzf-tab-source.plugin.zsh
 #-------------------------------->
 
 # Startup session selector
@@ -181,6 +181,9 @@ export QT_QPA_PLATFORM=xcb
 
 export PATH=$PATH:$HOME/.spicetify
 
+# zsh-autosuggestions
+source ~/.zsh/zsh-autosuggestions/zsh-autosuggestions.zsh
+
 autoload -Uz compinit
 compinit
 
@@ -188,15 +191,18 @@ fpath=(/usr/share/zsh/site-functions $fpath)
 
 source /home/linuxbrew/.linuxbrew/share/zsh-abbr/zsh-abbr.zsh
 
-if type brew &>/dev/null; then
-    FPATH=$(brew --prefix)/share/zsh-abbr:$FPATH
-
-    autoload -Uz compinit
-    compinit
-  fi
-
 setopt extended_glob
 setopt correct
 
 # Created by `pipx` on 2024-09-21 09:05:53
 export PATH="$PATH:/home/d7om/.local/bin"
+
+function zle-line-init zle-keymap-select {
+RPS1="${${KEYMAP/vicmd/}/(main|viins)/}"
+RPS2=$RPS1
+zle reset-prompt
+}
+zle -N zle-line-init
+zle -N zle-keymap-select
+
+eval "$(starship init zsh)"
