@@ -1,46 +1,9 @@
-# ZSH Configuration
-
+# -----------------------------
+# Plugin Managers & Plugins
+# -----------------------------
 # Znap
 [[ -r ~/Repos/znap/znap.zsh ]] || git clone --depth 1 -- https://github.com/marlonrichert/zsh-snap.git ~/Repos/znap
 source ~/Repos/znap/znap.zsh
-
-# Aliases
-source ~/.aliasesrc
-
-# Environment variables
-export PATH="$PATH:/opt/nvim-linux64/bin"
-export PATH="$PATH:/home/d7om/.bun/bin"
-export BUN_INSTALL="$HOME/.bun"
-export PATH=$BUN_INSTALL/bin:$PATH
-export PNPM_HOME="$HOME/.local/share/pnpm"
-export NVM_DIR="$HOME/.nvm"
-export PATH=~/.console-ninja/.bin:$PATH
-export ANDROID_HOME=$HOME/Android/Sdk
-export PATH=$PATH:$ANDROID_HOME/emulator
-export PATH=$PATH:$ANDROID_HOME/platform-tools
-export PATH=$PATH:$HOME/go/bin/
-export PATH=$PATH:/home/linuxbrew/.linuxbrew/bin/go
-export EDITOR=nvim
-export DOTNET_ROOT=$HOME/.dotnet
-export PATH=$PATH:$DOTNET_ROOT:$DOTNET_ROOT/tools
-export __GLX_VENDOR_LIBRARY_NAME=nvidia
-export __GL_SYNC_TO_VBLANK=0
-export __GL_SYNC_DISPLAY_DEVICE=DP-0
-export HYPRSHOT_DIR=$HOME/Pictures/Screenshots/
-
-# pnpm
-case ":$PATH:" in
-  *":$PNPM_HOME:"*) ;;
-  *) export PATH="$PNPM_HOME:$PATH" ;;
-esac
-
-# nvm
-[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
-[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"
-
-# Linuxbrew
-eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
-
 
 # Zinit
 if [[ ! -f $HOME/.local/share/zinit/zinit.git/zinit.zsh ]]; then
@@ -55,154 +18,200 @@ source "$HOME/.local/share/zinit/zinit.git/zinit.zsh"
 autoload -Uz _zinit
 (( ${+_comps} )) && _comps[zinit]=_zinit
 
-# Load Zinit annexes
+# Zinit Annexes
 zinit light-mode for \
     zdharma-continuum/zinit-annex-as-monitor \
     zdharma-continuum/zinit-annex-bin-gem-node \
     zdharma-continuum/zinit-annex-patch-dl \
     zdharma-continuum/zinit-annex-rust
 
-# Zoxide
-eval "$(zoxide init zsh)"
-
-# Loading Plugins
+# Zinit Plugins
 zinit load atuinsh/atuin
 zinit light zsh-users/zsh-syntax-highlighting
 zinit light Aloxaf/fzf-tab
 
+# zsh-autosuggestions
+source ~/.zsh/zsh-autosuggestions/zsh-autosuggestions.zsh
 
-# Functions
-function yy() {
-	local tmp="$(mktemp -t "yazi-cwd.XXXXXX")"
-	yazi "$@" --cwd-file="$tmp"
-	if cwd="$(cat -- "$tmp")" && [ -n "$cwd" ] && [ "$cwd" != "$PWD" ]; then
-		cd -- "$cwd"
-	fi
-	rm -f -- "$tmp"
-}
+# -----------------------------
+# Path & Environment Variables
+# -----------------------------
+export PATH="$PATH:/opt/nvim-linux64/bin"
+export PATH="$PATH:/home/d7om/.bun/bin"
+export PATH="$PATH:/home/d7om/.local/bin"
+export PATH="$PATH:$HOME/go/bin/"
+export PATH="$PATH:/home/linuxbrew/.linuxbrew/bin/go"
+export PATH="$PATH:$HOME/.spicetify"
+export PATH=~/.console-ninja/.bin:$PATH
 
-function t() {
-  if [[ -z "$1" ]]; then
-    tmux
-  else
-    tmux has-session -t "$1" 2>/dev/null
-    if [[ $? -eq 0 ]]; then
-      tmux attach-session -t "$1"
-    else
-      tmux new-session -s "$1"
-    fi
-  fi
-}
+# Development environments
+export BUN_INSTALL="$HOME/.bun"
+export PNPM_HOME="$HOME/.local/share/pnpm"
+export NVM_DIR="$HOME/.config/nvm"
+export ANDROID_HOME=$HOME/Android/Sdk
+export DOTNET_ROOT=$HOME/.dotnet
+export PATH="$PATH:$DOTNET_ROOT:$DOTNET_ROOT/tools"
 
-function tr() {
-  if [[ -z "$1" ]]; then
-    echo "Please provide a name."
-  elif [[ "$1" == "w" ]]; then
-    tmux rename-window "$2"
-  else
-    tmux rename-session "$1"
-  fi
-}
+# Android paths
+export PATH=$PATH:$ANDROID_HOME/emulator
+export PATH=$PATH:$ANDROID_HOME/platform-tools
 
-bindkey -s '^f' 'ff\n'
+# System configuration
+export EDITOR=nvim
+export HYPRSHOT_DIR=$HOME/Pictures/Screenshots/
+export HOMEBREW_AUTO_UPDATE_SECS=0
+export QT_QPA_PLATFORM=xcb
 
-# Powerlevel10k
-# zinit ice depth=1; zinit light romkatv/powerlevel10k
-# [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
+# Graphics settings
+export __GLX_VENDOR_LIBRARY_NAME=nvidia
+export __GL_SYNC_TO_VBLANK=0
+export __GL_SYNC_DISPLAY_DEVICE=DP-0
 
-# bun completions
+# -----------------------------
+# Tool Configurations
+# -----------------------------
+# pnpm
+case ":$PATH:" in
+  *":$PNPM_HOME:"*) ;;
+  *) export PATH="$PNPM_HOME:$PATH" ;;
+esac
+
+# nvm
+[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
+[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"
+
+# Linuxbrew
+eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
+
+# Zoxide
+eval "$(zoxide init zsh)"
+
+# Bun completions
 [ -s "$HOME/.bun/_bun" ] && source "$HOME/.bun/_bun"
 
-
-
-# Fzf theme
+# -----------------------------
+# FZF Configuration
+# -----------------------------
+source <(fzf --zsh)
+# FZF Theme
 export FZF_DEFAULT_OPTS=" \
 --color=bg+:#313244,bg:#1e1e2e,spinner:#f5e0dc,hl:#f38ba8 \
 --color=fg:#cdd6f4,header:#f38ba8,info:#cba6f7,pointer:#f5e0dc \
 --color=marker:#b4befe,fg+:#cdd6f4,prompt:#cba6f7,hl+:#f38ba8 \
 --color=selected-bg:#45475a \
---multi"
+--multi \
+--color=fg:#c6d0f5,fg+:#c6d0f5,bg:-1,bg+:#313244 \
+--color=hl:#f38ba8,hl+:#f38ba8,info:#cba6f7,marker:#b4befe \
+--color=prompt:#cba6f7,spinner:#f5e0dc,pointer:#f5e0dc,header:#f38ba8 \
+--color=border:#262626,label:#aeaeae,query:#d9d9d9 \
+--border=rounded --border-label='' --preview-window=border-rounded --prompt='❯' \
+--marker='|' --pointer='◆' --separator='─' --scrollbar='│|' \
+--info=right"
 
-export FZF_DEFAULT_OPTS=$FZF_DEFAULT_OPTS'
-  --color=fg:#c6d0f5,fg+:#c6d0f5,bg:-1,bg+:#313244
-  --color=hl:#f38ba8,hl+:#f38ba8,info:#cba6f7,marker:#b4befe
-  --color=prompt:#cba6f7,spinner:#f5e0dc,pointer:#f5e0dc,header:#f38ba8
-  --color=border:#262626,label:#aeaeae,query:#d9d9d9
-  --border="rounded" --border-label="" --preview-window="border-rounded" --prompt="❯"
-  --marker="|" --pointer="◆" --separator="─" --scrollbar="│|"
-  --info="right"'
+# fzf-tab configuration
+zstyle ':completion:*:git-checkout:*' sort false
+zstyle ':fzf-tab:*' use-fzf-default-opts yes
+zstyle ':fzf-tab:*' fzf-command ftb-tmux-popup
+zstyle ':fzf-tab:*' popup-min-size 100 8
+zstyle ':completion:*' menu no
+# preview directory's content with eza when completing cd
+zstyle ':fzf-tab:complete:cd:*' fzf-preview 'eza -1 --color=always $realpath'
+# custom fzf flags
 
-  # fzf tab
-  zstyle ':fzf-tab:*' use-fzf-default-opts yes
-  zstyle ':fzf-tab:complete:cd:*' fzf-preview 'eza -1 --color=always $realpath'
-  zstyle ':completion:*:git-checkout:*' sort false
-  zstyle ':fzf-tab:*' fzf-command ftb-tmux-popup
-  zstyle ':fzf-tab:*' popup-min-size 50 8
-  if [[ ! -d $HOME/Packages/fzf-tab-source ]]; then
+# fzf-tab-source
+[[ ! -d ${TMPPREFIX:-/tmp/zsh}-fzf-tab-$USER ]] && mkdir -p ${TMPPREFIX:-/tmp/zsh}-fzf-tab-$USER
+if [[ ! -d $HOME/Packages/fzf-tab-source ]]; then
     mkdir -p $HOME/Packages/
     git clone https://github.com/Freed-Wu/fzf-tab-source $HOME/Packages/fzf-tab-source
-  fi
-  source $HOME/Packages/fzf-tab-source/fzf-tab-source.plugin.zsh
-#-------------------------------->
-
-# Startup session selector
-if [ -z "$TMUX" ]; then
-  sesh connect "$(sesh list -i | gum filter --limit 1 --placeholder 'Pick a sesh' --prompt='⚡')"
 fi
+source $HOME/Packages/fzf-tab-source/fzf-tab-source.plugin.zsh
 
-
-# Sesh kebinds to manage tmux sessions
-# Alt - s
-function sesh-sessions() {
-  {
-    exec </dev/tty
-    exec <&1
-    local session
-    session=$(sesh list -t -c | fzf --height 40% --reverse --border-label ' sesh ' --border --prompt '⚡  ')
-    [[ -z "$session" ]] && return
-    sesh connect $session
-  }
+# -----------------------------
+# Custom Functions
+# -----------------------------
+# Yazi file manager
+function yy() {
+    local tmp="$(mktemp -t "yazi-cwd.XXXXXX")"
+    yazi "$@" --cwd-file="$tmp"
+    if cwd="$(cat -- "$tmp")" && [ -n "$cwd" ] && [ "$cwd" != "$PWD" ]; then
+        cd -- "$cwd"
+    fi
+    rm -f -- "$tmp"
 }
 
-zle     -N             sesh-sessions
+# Tmux functions
+function t() {
+    if [[ -z "$1" ]]; then
+        tmux
+    else
+        tmux has-session -t "$1" 2>/dev/null
+        if [[ $? -eq 0 ]]; then
+            tmux attach-session -t "$1"
+        else
+            tmux new-session -s "$1"
+        fi
+    fi
+}
+
+function tr() {
+    if [[ -z "$1" ]]; then
+        echo "Please provide a name."
+    elif [[ "$1" == "w" ]]; then
+        tmux rename-window "$2"
+    else
+        tmux rename-session "$1"
+    fi
+}
+
+# Sesh session manager
+function sesh-sessions() {
+    {
+        exec </dev/tty
+        exec <&1
+        local session
+        session=$(sesh list -t -c | fzf --height 40% --reverse --border-label ' sesh ' --border --prompt '⚡  ')
+        [[ -z "$session" ]] && return
+        sesh connect $session
+    }
+}
+
+# -----------------------------
+# Keybindings
+# -----------------------------
+bindkey -s '^f' 'ff\n'
+zle -N sesh-sessions
 bindkey -M emacs '\es' sesh-sessions
 bindkey -M vicmd '\es' sesh-sessions
 bindkey -M viins '\es' sesh-sessions
 
-bindkey '^Z' fg
-
-# NVM
-export NVM_DIR="$HOME/.config/nvm"
-[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
-[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
-
-export HOMEBREW_AUTO_UPDATE_SECS=0
-export QT_QPA_PLATFORM=xcb
-
-export PATH=$PATH:$HOME/.spicetify
-
-# zsh-autosuggestions
-source ~/.zsh/zsh-autosuggestions/zsh-autosuggestions.zsh
-
-autoload -Uz compinit
-compinit
-
-fpath=(/usr/share/zsh/site-functions $fpath)
-
-source /home/linuxbrew/.linuxbrew/share/zsh-abbr/zsh-abbr.zsh
-
-setopt extended_glob
-setopt correct
-
-# Created by `pipx` on 2024-09-21 09:05:53
-export PATH="$PATH:/home/d7om/.local/bin"
-
 function zle-line-init zle-keymap-select {
-RPS1="${${KEYMAP/vicmd/}/(main|viins)/}"
-RPS2=$RPS1
-zle reset-prompt
+    RPS1="${${KEYMAP/vicmd/}/(main|viins)/}"
+    RPS2=$RPS1
+    zle reset-prompt
 }
 zle -N zle-line-init
 zle -N zle-keymap-select
 
+# -----------------------------
+# Startup Configuration
+# -----------------------------
+# Tmux session selector
+if [ -z "$TMUX" ]; then
+    sesh connect "$(sesh list -i | gum filter --limit 1 --placeholder 'Pick a sesh' --prompt='⚡')"
+fi
+
+# 
+# -----------------------------
+# Core ZSH Configuration
+# -----------------------------
+autoload -Uz compinit
+compinit
+setopt extended_glob
+setopt correct
+
+# Source additional configs
+source ~/.aliasesrc
+
+# Starship prompt
 eval "$(starship init zsh)"
+eval "$(batman --export-env)"
