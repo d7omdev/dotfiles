@@ -4,7 +4,10 @@
 
 # To get a full list of supported fonts use the `kitty +list-fonts` command.
 # font_family     IosevkaTerm Nerd Font
-font_family      JetBrainsMono Nerd Font 
+font_family      family="VictorMono Nerd Font"
+bold_font        auto
+italic_font      auto
+bold_italic_font auto
 font_size 14.0
 
 scrollback_lines 8000
@@ -104,12 +107,12 @@ tab_title_template "{fmt.fg.red}{bell_symbol}{activity_symbol}{fmt.fg.tab}{index
 
 #: The foreground and background colors
 
-# background_opacity 0.8
+background_opacity 0
 # background_opacity 1.0
 
 
 
-background_image none
+# background_image /home/d7om/Pictures/BG.jpg
 
 #: Path to a background image. Must be in PNG format.
 
@@ -178,7 +181,7 @@ allow_hyperlinks yes
 #: will ask before opening the link when clicked.
 
 shell_integration enabled
-shell_integration no-cursor
+# shell_integration no-cursor
 
 #: Enable shell integration on supported shells. This enables features
 #: such as jumping to previous prompts, browsing the output of the
@@ -275,7 +278,7 @@ map ctrl+a>shift+d     debug_config
 
 
 # BEGIN_KITTY_THEME
-# Catppuccin-Frappe
+# Catppuccin-Mocha
 include current-theme.conf
 # END_KITTY_THEME
 
@@ -304,17 +307,17 @@ map ctrl+shift+home no_op
 map ctrl+shift+end no_op
 
 
-# Bind Ctrl+Alt+W to Up Arrow
-map alt+w send_text all \x1b[A
-
-# Bind Ctrl+Alt+A to Left Arrow
-map alt+a send_text all \x1b[D
-
-# Bind Ctrl+Alt+S to Down Arrow
-map alt+s send_text all \x1b[B
-
-# Bind Ctrl+Alt+D to Right Arrow
-map alt+d send_text all \x1b[C
+# # Bind Alt+W to Up Arrow
+# map alt+w send_text all \x1b[A
+#
+# # Bind Alt+A to Left Arrow
+# map alt+a send_text all \x1b[D
+#
+# # Bind Alt+S to Down Arrow
+# map alt+s send_text all \x1b[B
+#
+# # Bind Alt+D to Right Arrow
+# map alt+d send_text all \x1b[C
 
 
 
@@ -326,13 +329,14 @@ map ctrl+left send_text all \x1b\x62
 map ctrl+right send_text all \x1b\x66
 
 # jump to beginning and end of line
-#map alt+left send_text all \x01
-#map alt+right send_text all \x05
+map alt+] send_text all \x01
+map alt+[ send_text all \x05
 
 background_blur 1 
 bell_on_tab no
 enable_audio_bell no
 hide_window_decorations yes
 titlebar-only no
-window_padding_width 5 0.5
+# window_padding_width 5 0.5
 
+cursor_trail 3
