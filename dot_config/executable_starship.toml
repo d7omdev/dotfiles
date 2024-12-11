@@ -70,7 +70,7 @@ crust = "#11111b"
 
 [cmd_duration]
 min_time = 2000
-format = "($style )[ $duration](bg:purple bold fg:color_red)"
+format = "($style )[ $duration](bg:purple bold fg:black)"
 style = "bg:purple bold fg:yellow"
 
 [os]
@@ -137,23 +137,23 @@ diverged = "↕${ahead_count} ${behind_count}"
 untracked = "?${count} "
 conflicted = "≠${count} "
 staged = "✓${count} "
-stashed = "*${count} "
+stashed = "󰸐${count} "
 format = """\
-[$ahead_behind](bold green bg:green)\
-[$stashed](bold green bg:green)\
+[$ahead_behind](bold red bg:green)\
+[$stashed](bold surface1 bg:green)\ 
 [$behind_behind](bold red bg:green)\
 [$diverged](bold yellow bg:green)\
 [$conflicted](bold red bg:green)\
 [$modified](bold color_purple bg:green)\
 [$untracked](bold color_blue bg:green)\
-[$staged](bold green bg:green)\
+[$staged](bold maroon bg:green)\
 """
 
 [nodejs]
-symbol = ""
+symbol = "󰎙"
 style = "bg:blue"
 # format = '[[ $symbol  ](fg:base bg:blue)]($style)'
-format = '[[ $symbol ](fg:color_blue bg:blue)]($style)'
+format = '[[ $symbol ](fg:color_aqua bg:blue)]($style)'
 
 [c]
 symbol = " "
@@ -163,7 +163,7 @@ format = '[[ $symbol ](fg:base bg:blue)]($style)'
 [rust]
 symbol = ""
 style = "bg:blue"
-format = '[[ $symbol ](fg:base bg:blue)]($style) '
+format = '[[ $symbol ](fg:color_orange bg:blue)]($style)'
 
 [golang]
 symbol = ""
@@ -193,7 +193,7 @@ format = '[[ $symbol ](fg:base bg:blue)]($style)'
 [python]
 symbol = ""
 style = "bg:blue"
-format = '[[ $symbol ](fg:color_yellow bg:blue)]($style)'
+format = '[[ $symbol $virtualenv ](fg:yellow bg:blue)]($style)'
 
 [docker_context]
 symbol = ""
