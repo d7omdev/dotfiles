@@ -1,7 +1,11 @@
 #!/bin/bash
 
 if [ -f /etc/arch-release ]; then
-    ansible-playbook ~/.bootstrap/setup-arch.yml --ask-become-pass
+    if command -v ansible-playbook &>/dev/null; then
+        ansible-playbook ~/.bootstrap/setup-arch.yml --ask-become-pass
+    else
+        ./run_once_install_ansible_and_setup.sh
+    fi
 else
     echo "Unsupported OS"
 fi
