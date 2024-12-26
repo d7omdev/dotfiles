@@ -4,10 +4,7 @@
 
 # To get a full list of supported fonts use the `kitty +list-fonts` command.
 # font_family     IosevkaTerm Nerd Font
-font_family      family="VictorMono Nerd Font"
-bold_font        auto
-italic_font      auto
-bold_italic_font auto
+font_family      JetBrainsMono Nerd Font 
 font_size 14.0
 
 scrollback_lines 8000
@@ -278,7 +275,7 @@ map ctrl+a>shift+d     debug_config
 
 
 # BEGIN_KITTY_THEME
-# Catppuccin-Mocha
+# One Dark
 include current-theme.conf
 # END_KITTY_THEME
 
