@@ -1,3 +1,0 @@
-[submodule "plugin/pyyaml"]
-	path = plugin/pyyaml
-	url = https://github.com/yaml/pyyaml.git
