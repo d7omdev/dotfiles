@@ -1,0 +1,6 @@
+.DS_Store
+
+# Ignore the plugin files so users can customize them. The default configs are
+# stored in plugin/examples/ for version control.
+/config.yaml
+/plugin/init.tmux
