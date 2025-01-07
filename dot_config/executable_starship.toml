@@ -8,7 +8,6 @@ $username\
 $directory\
 [](fg:peach bg:green)\
 $git_branch\
-$git_status\
 [](fg:green bg:blue)\
 $docker_context\
 $c\
