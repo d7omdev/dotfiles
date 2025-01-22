@@ -84,13 +84,14 @@ Raspbian = "󰐿"
 Mint = "󰣭"
 Macos = ""
 Manjaro = ""
-Linux ="󰣇 " 
+Linux = "󰣇 "
 Gentoo = "󰣨"
 Fedora = "󰣛"
 Alpine = ""
 Amazon = ""
 Android = ""
 Arch = "󰣇"
+CachyOS = "󰣇 "
 Artix = "󰣇"
 CentOS = ""
 Debian = "󰣚"
@@ -139,7 +140,7 @@ staged = "✓${count} "
 stashed = "󰸐${count} "
 format = """\
 [$ahead_behind](bold red bg:green)\
-[$stashed](bold surface1 bg:green)\ 
+[$stashed](bold surface1 bg:green)\
 [$behind_behind](bold red bg:green)\
 [$diverged](bold yellow bg:green)\
 [$conflicted](bold red bg:green)\
