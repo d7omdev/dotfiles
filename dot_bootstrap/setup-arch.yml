@@ -34,7 +34,7 @@
       - android-tools
       - appimagelauncher
       - ttf-amiri
-      - hyprshot
+      - hyprshot-git
       - keyd
       - clipse
       - base-devel
@@ -94,7 +94,7 @@
           - zsh
           - fzf
           - tmux
-          - kitty
+          - kitty-git
           - openssl
           - gdbm
           - libnsl
@@ -185,9 +185,9 @@
           become: false
           when: not homebrew_exists.stat.exists
 
-        - name: Add Homebrew to PATH in .bashrc
+        - name: Add Homebrew to PATH in .zshrc
           ansible.builtin.lineinfile:
-            path: "/home/{{ remote_regular_user }}/.bashrc"
+            path: "/home/{{ remote_regular_user }}/.zshrc"
             line: 'eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"'
             create: yes
           become: false
@@ -239,7 +239,7 @@
 
     - name: Clone Neovim config from GitHub
       ansible.builtin.git:
-        repo: "https://github.com/abdulrahmanDev1/nvim.git"
+        repo: "https://github.com/d7omdev/nvim.git"
         dest: "/home/{{ remote_regular_user }}/.config/nvim"
         clone: yes
         update: yes
@@ -252,7 +252,11 @@
     - name: Display warning if Neovim config clone failed
       ansible.builtin.debug:
         msg: "Warning: Failed to clone Neovim config. Please check the repository URL and your internet connection."
-      when: nvim_clone.failed
+      when: 
+        - nvim_clone is defined 
+        - nvim_clone.skipped is not defined
+        - nvim_clone.failed is defined
+        - nvim_clone.failed
 
     - name: WASD to arrow key mapping
       pause:
@@ -302,29 +306,60 @@
           
       when: setup_keyd.user_input | lower == 'yes'
 
+    - name: Check if kitty is installed
+      command: which kitty
+      register: kitty_check
+      ignore_errors: true
+      changed_when: false
+      become: false
+
+    - name: Install kitty-git if not present
+      become: false
+      ansible.builtin.command: yay -S --noconfirm --needed kitty-git
+      when: kitty_check.rc != 0
+      register: kitty_install
+      changed_when: kitty_install.rc == 0 and not 'nothing to do' in kitty_install.stderr
+
     - name: Ask if user wants to install end-4's Hyprland rice
       pause:
-        prompt: "Do you want to install end-4's Hyprland rice? This will run interactively and require your input. (yes/no)"
-      register: install_rice
+        prompt: |
+          A new kitty terminal will open to run the installation script.
+          Please wait for the installation to complete in that window.
+
+          After the installation is complete, return here and type 'yes' to continue.
+          Do you want to proceed? (yes/no)
+      register: start_install
       become: false
 
-    - name: Run end-4's Hyprland installation script
-      ansible.builtin.shell:
-        cmd: bash <(curl -s "https://end-4.github.io/dots-hyprland-wiki/setup.sh")
+    - name: Launch kitty with installation script
       become: false
-      when: install_rice.user_input | lower == 'yes'
-      register: rice_installation
-      ignore_errors: true
-      environment:
-        TERM: xterm-256color
+      command: kitty -e bash -c 'bash <(curl -s "https://end-4.github.io/dots-hyprland-wiki/setup.sh")'
+      when: start_install.user_input | lower == 'yes'
+      async: 0
+      poll: 0
 
-    - name: Display warning if rice installation failed
+    - name: Ask if installation is complete
+      pause:
+        prompt: "Has the installation in the kitty window completed? (yes/no)"
+      register: install_complete
+      become: false
+      when: start_install.user_input | lower == 'yes'
+
+    - name: Skip Hyprland installation script (already run manually)
       ansible.builtin.debug:
-        msg: "Warning: The rice installation script encountered an error. Please check the output above for details."
-      when: rice_installation.failed
+        msg: "Proceeding with the rest of the configuration"
+      when: start_install.user_input | lower == 'yes' and install_complete.user_input | lower == 'yes'
+
+    - name: Ask about D7OM's Hyprland and AGS configurations
+      pause:
+        prompt: "Do you want to install D7OM's Hyprland and AGS configurations? (yes/no)"
+      register: confirm_hypr_ags
+      when: start_install.user_input | lower == 'yes' and install_complete.user_input | lower == 'yes'
 
     - name: Handle D7OM's Hyprland and AGS configurations
-      when: install_rice.user_input | lower == 'yes' and not rice_installation.failed
+      when: start_install.user_input | lower == 'yes' and 
+            install_complete.user_input | lower == 'yes' and 
+            confirm_hypr_ags.user_input | lower == 'yes'
       block:
         - name: Check existing directories
           ansible.builtin.stat:
@@ -354,8 +389,8 @@
           loop:
             - ".config/hypr.bak"
             - ".config/ags.bak"
-          when: (item == '.config/hypr.bak' and hypr_backup is defined and not hypr_backup.skipped) or
-                (item == '.config/ags.bak' and ags_backup is defined and not ags_backup.skipped)
+          when: (item == '.config/hypr.bak' and hypr_backup is defined and hypr_backup.changed) or
+                (item == '.config/ags.bak' and ags_backup is defined and ags_backup.changed)
 
         - name: Clone D7OM's Hyprland config
           ansible.builtin.git:
