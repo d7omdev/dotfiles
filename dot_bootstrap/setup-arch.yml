@@ -37,6 +37,7 @@
       - hyprshot
       - keyd
       - clipse
+      - base-devel
     install_homebrew_if_missing: true
     upgrade_homebrew_packages: true
 
@@ -48,10 +49,17 @@
     - name: Install yay
       block:
         - name: Check if yay is installed
-          command: which yay
+          ansible.builtin.command: which yay
           register: yay_check
           ignore_errors: true
           changed_when: false
+
+        - name: Clean up old yay directory if exists
+          ansible.builtin.file:
+            path: /tmp/yay
+            state: absent
+          when: yay_check.rc != 0
+          become: false
 
         - name: Clone yay repo
           git:
@@ -69,8 +77,10 @@
 
     - name: Install AUR packages
       become: false
-      command: yay -S --noconfirm {{ item }}
+      ansible.builtin.command: yay -S --noconfirm --needed {{ item }}
       loop: "{{ aur_packages }}"
+      register: yay_result
+      changed_when: yay_result.rc == 0 and not 'nothing to do' in yay_result.stderr
 
     - name: Install required packages for Arch (pacman)
       community.general.pacman:
@@ -97,7 +107,13 @@
           - docker-compose
         state: present
 
+    - name: Check if root filesystem is BTRFS
+      ansible.builtin.command: findmnt -no FSTYPE /
+      register: root_fstype
+      changed_when: false
+
     - name: Configure grub-btrfsd service
+      when: root_fstype.stdout == "btrfs"
       copy:
         dest: /etc/systemd/system/grub-btrfsd.service
         content: |
@@ -115,6 +131,7 @@
           WantedBy=multi-user.target
 
     - name: Configure grub-btrfs
+      when: root_fstype.stdout == "btrfs"
       blockinfile:
         path: /etc/default/grub-btrfs/config
         create: yes
@@ -127,11 +144,21 @@
           GRUB_BTRFS_SUBMENUNAME="Snapshots"
           GRUB_BTRFS_TITLE_FORMAT="timeshift-auto-snap"
 
+    - name: Configure timeshift-autosnap
+      when: root_fstype.stdout == "btrfs"
+      lineinfile:
+        path: /etc/timeshift-autosnap.conf
+        regexp: '^updateGrub='
+        line: 'updateGrub=false'
+        create: yes
+
     - name: Reload systemd daemon
+      when: root_fstype.stdout == "btrfs"
       systemd:
         daemon_reload: yes
 
     - name: Enable and start required services
+      when: root_fstype.stdout == "btrfs"
       systemd:
         name: "{{ item }}"
         enabled: yes
@@ -158,9 +185,9 @@
           become: false
           when: not homebrew_exists.stat.exists
 
-        - name: Add Homebrew to PATH in .zshrc
-          lineinfile:
-            path: "/home/{{ remote_regular_user }}/.zshrc"
+        - name: Add Homebrew to PATH in .bashrc
+          ansible.builtin.lineinfile:
+            path: "/home/{{ remote_regular_user }}/.bashrc"
             line: 'eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"'
             create: yes
           become: false
@@ -211,7 +238,7 @@
         - confirm_install.user_input == "yes"
 
     - name: Clone Neovim config from GitHub
-      git:
+      ansible.builtin.git:
         repo: "https://github.com/abdulrahmanDev1/nvim.git"
         dest: "/home/{{ remote_regular_user }}/.config/nvim"
         clone: yes
@@ -219,6 +246,13 @@
       become: false
       when:
         - not nvim_config_check.stat.exists or confirm_install.user_input == "yes"
+      ignore_errors: true
+      register: nvim_clone
+
+    - name: Display warning if Neovim config clone failed
+      ansible.builtin.debug:
+        msg: "Warning: Failed to clone Neovim config. Please check the repository URL and your internet connection."
+      when: nvim_clone.failed
 
     - name: WASD to arrow key mapping
       pause:
@@ -267,3 +301,74 @@
           command: keyd reload
           
       when: setup_keyd.user_input | lower == 'yes'
+
+    - name: Ask if user wants to install end-4's Hyprland rice
+      pause:
+        prompt: "Do you want to install end-4's Hyprland rice? This will run interactively and require your input. (yes/no)"
+      register: install_rice
+      become: false
+
+    - name: Run end-4's Hyprland installation script
+      ansible.builtin.shell:
+        cmd: bash <(curl -s "https://end-4.github.io/dots-hyprland-wiki/setup.sh")
+      become: false
+      when: install_rice.user_input | lower == 'yes'
+      register: rice_installation
+      ignore_errors: true
+      environment:
+        TERM: xterm-256color
+
+    - name: Display warning if rice installation failed
+      ansible.builtin.debug:
+        msg: "Warning: The rice installation script encountered an error. Please check the output above for details."
+      when: rice_installation.failed
+
+    - name: Handle D7OM's Hyprland and AGS configurations
+      when: install_rice.user_input | lower == 'yes' and not rice_installation.failed
+      block:
+        - name: Check existing directories
+          ansible.builtin.stat:
+            path: "/home/{{ remote_regular_user }}/.config/{{ item }}"
+          register: config_check
+          loop:
+            - hypr
+            - ags
+
+        - name: Backup existing hypr directory if exists
+          ansible.builtin.command: 
+            cmd: mv "/home/{{ remote_regular_user }}/.config/hypr" "/home/{{ remote_regular_user }}/.config/hypr.bak"
+          when: config_check.results[0].stat.exists
+          become: false
+          register: hypr_backup
+
+        - name: Backup existing ags directory if exists
+          ansible.builtin.command:
+            cmd: mv "/home/{{ remote_regular_user }}/.config/ags" "/home/{{ remote_regular_user }}/.config/ags.bak"
+          when: config_check.results[1].stat.exists
+          become: false
+          register: ags_backup
+
+        - name: Notify user about backups
+          ansible.builtin.debug:
+            msg: "Existing configuration backed up to {{ item }}"
+          loop:
+            - ".config/hypr.bak"
+            - ".config/ags.bak"
+          when: (item == '.config/hypr.bak' and hypr_backup is defined and not hypr_backup.skipped) or
+                (item == '.config/ags.bak' and ags_backup is defined and not ags_backup.skipped)
+
+        - name: Clone D7OM's Hyprland config
+          ansible.builtin.git:
+            repo: "https://github.com/d7omdev/hypr.git"
+            dest: "/home/{{ remote_regular_user }}/.config/hypr"
+            clone: yes
+            update: yes
+          become: false
+
+        - name: Clone D7OM's AGS config
+          ansible.builtin.git:
+            repo: "https://github.com/d7omdev/ags.git"
+            dest: "/home/{{ remote_regular_user }}/.config/ags"
+            clone: yes
+            update: yes
+          become: false

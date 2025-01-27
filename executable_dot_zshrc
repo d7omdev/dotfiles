@@ -200,7 +200,7 @@ if [ -z "$TMUX" ]; then
     sesh connect "$(sesh list -i | gum filter --limit 1 --placeholder 'Pick a sesh' --prompt='⚡')"
 fi
 
-# 
+#
 # -----------------------------
 # Core ZSH Configuration
 # -----------------------------
@@ -219,3 +219,8 @@ eval "$(batman --export-env)"
 
 # Load Angular CLI autocompletion.
 source <(ng completion script)
+
+
+[[ -f ~/.inshellisense/zsh/init.zsh ]] && source ~/.inshellisense/zsh/init.zsh
+
+is

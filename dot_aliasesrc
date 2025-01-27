@@ -28,7 +28,7 @@ alias rip="expac --timefmt='%Y-%m-%d %T' '%l\t%n %v' | sort | tail -200 | nl" # 
 alias please='sudo $(fc -ln -1)'
 alias si="snap install"
 alias bri="brew install"
-alias brr="brew remove" 
+alias brr="brew remove"
 
 # pnpm commands
 alias pn="pnpm"
@@ -83,7 +83,7 @@ alias y="yazi"
 alias Cc="xsel --input --clipboard"
 alias Cv="xsel --output --clipboard"
 alias cargo_watch="cargo-watch -qc -x run -x clippy"
-alias e="nautilus ."
+alias e="nautilus . > /dev/null 2>&1 &"
 alias lg="lazygit"
 alias own="sudo chmod -R 755 /home/$whoami/"
 alias df="duf -hide special"

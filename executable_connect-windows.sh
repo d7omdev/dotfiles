@@ -1,5 +1,9 @@
 #!/bin/bash
 
+notify-send "Warning!" "This is currently disabled" -u critical -a "disabled script" 
+exit 0
+
+
 # Variables
 VM_NAME="win11"
 IP_ADDRESS="192.168.122.172"
