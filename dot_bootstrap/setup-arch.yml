@@ -90,6 +90,7 @@
           - neovim
           - firefox
           - gnome-tweaks
+          - vorta
           - ripgrep
           - zsh
           - fzf
@@ -119,14 +120,14 @@
         content: |
           [Unit]
           Description=Regenerate grub-btrfs.cfg
-          
+
           [Service]
           Type=simple
           LogLevelMax=notice
           Environment="PATH=/sbin:/bin:/usr/sbin:/usr/bin"
           EnvironmentFile=/etc/default/grub-btrfs/config
           ExecStart=/usr/bin/grub-btrfsd --syslog --timeshift-auto
-          
+
           [Install]
           WantedBy=multi-user.target
 
@@ -148,8 +149,8 @@
       when: root_fstype.stdout == "btrfs"
       lineinfile:
         path: /etc/timeshift-autosnap.conf
-        regexp: '^updateGrub='
-        line: 'updateGrub=false'
+        regexp: "^updateGrub="
+        line: "updateGrub=false"
         create: yes
 
     - name: Reload systemd daemon
@@ -177,7 +178,7 @@
           get_url:
             url: https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh
             dest: /tmp/brew_install.sh
-            mode: '0755'
+            mode: "0755"
           become: false
 
         - name: Install Homebrew
@@ -252,8 +253,8 @@
     - name: Display warning if Neovim config clone failed
       ansible.builtin.debug:
         msg: "Warning: Failed to clone Neovim config. Please check the repository URL and your internet connection."
-      when: 
-        - nvim_clone is defined 
+      when:
+        - nvim_clone is defined
         - nvim_clone.skipped is not defined
         - nvim_clone.failed is defined
         - nvim_clone.failed
@@ -270,7 +271,7 @@
           file:
             path: /etc/keyd
             state: directory
-            mode: '0755'
+            mode: "0755"
 
         - name: Create keyd configuration file
           copy:
@@ -292,7 +293,7 @@
               s = down
               a = left
               d = right
-            mode: '0644'
+            mode: "0644"
 
         - name: Enable and start keyd service
           systemd:
@@ -303,7 +304,7 @@
 
         - name: Apply keyd configuration
           command: keyd reload
-          
+
       when: setup_keyd.user_input | lower == 'yes'
 
     - name: Check if kitty is installed
@@ -357,9 +358,9 @@
       when: start_install.user_input | lower == 'yes' and install_complete.user_input | lower == 'yes'
 
     - name: Handle D7OM's Hyprland and AGS configurations
-      when: start_install.user_input | lower == 'yes' and 
-            install_complete.user_input | lower == 'yes' and 
-            confirm_hypr_ags.user_input | lower == 'yes'
+      when: start_install.user_input | lower == 'yes' and
+        install_complete.user_input | lower == 'yes' and
+        confirm_hypr_ags.user_input | lower == 'yes'
       block:
         - name: Check existing directories
           ansible.builtin.stat:
@@ -370,7 +371,7 @@
             - ags
 
         - name: Backup existing hypr directory if exists
-          ansible.builtin.command: 
+          ansible.builtin.command:
             cmd: mv "/home/{{ remote_regular_user }}/.config/hypr" "/home/{{ remote_regular_user }}/.config/hypr.bak"
           when: config_check.results[0].stat.exists
           become: false
@@ -389,8 +390,9 @@
           loop:
             - ".config/hypr.bak"
             - ".config/ags.bak"
-          when: (item == '.config/hypr.bak' and hypr_backup is defined and hypr_backup.changed) or
-                (item == '.config/ags.bak' and ags_backup is defined and ags_backup.changed)
+          when:
+            (item == '.config/hypr.bak' and hypr_backup is defined and hypr_backup.changed) or
+            (item == '.config/ags.bak' and ags_backup is defined and ags_backup.changed)
 
         - name: Clone D7OM's Hyprland config
           ansible.builtin.git:
