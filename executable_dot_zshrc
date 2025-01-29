@@ -41,6 +41,7 @@ export PATH="$PATH:/home/d7om/.bun/bin"
 export PATH="$PATH:/home/d7om/.local/bin"
 export PATH="$PATH:$HOME/go/bin/"
 export PATH="$PATH:/home/linuxbrew/.linuxbrew/bin/go"
+export PATH="$PATH:/home/d7om/.cargo/bin"
 export PATH="$PATH:$HOME/.spicetify"
 export PATH=~/.console-ninja/.bin:$PATH
 
@@ -223,4 +224,3 @@ source <(ng completion script)
 
 [[ -f ~/.inshellisense/zsh/init.zsh ]] && source ~/.inshellisense/zsh/init.zsh
 
-is
