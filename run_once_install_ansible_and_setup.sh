@@ -106,26 +106,6 @@ fi
 #     log "setup-pika-backup.sh not found in .cache"
 # fi
 
-# Font configuration
-if [ -f "$HOME/.config/fontconfig/fonts.conf" ]; then
-	# Create system fonts directory if it doesn't exist
-	sudo mkdir -p /etc/fonts/conf.d
-	check_command "Creating system fonts directory"
-
-	# Copy font configuration instead of moving
-	sudo cp "$HOME/.config/fontconfig/fonts.conf" /etc/fonts/conf.d/local.conf
-	check_command "Copying font configuration"
-	log "Font configuration installed successfully"
-
-	# Update font cache
-	if command -v fc-cache >/dev/null 2>&1; then
-		sudo fc-cache -f
-		check_command "Updating font cache"
-	fi
-else
-	log "Warning: Font configuration not found at ~/.config/fontconfig/fonts.conf"
-fi
-
 # Display a message when finished
 if command -v figlet >/dev/null 2>&1; then
 	figlet -t -c Finished -f larry3d
