@@ -1,0 +1,87 @@
+---
+- name: Setup Pre-Shutdown Tasks
+  hosts: localhost
+  become: yes
+  tasks:
+    - name: Copy the pre-shutdown script
+      copy:
+        dest: /usr/local/bin/pre-shutdown.sh
+        content: |
+          #!/bin/bash
+
+          LOG_FILE="$HOME/.pre-shutdown.log"
+          MAX_LOG_LINES=500
+          NOTES_DIR="$HOME/Notes"
+
+          log() {
+              echo "$(date) - $1" | tee -a "$LOG_FILE"
+          }
+
+          notify() {
+              notify-send "Pre-Shutdown" "$1"
+          }
+
+          if [ -f "$LOG_FILE" ]; then
+              LINE_COUNT=$(wc -l < "$LOG_FILE")
+              if [ "$LINE_COUNT" -gt "$MAX_LOG_LINES" ]; then
+                  echo "$(date) - Log cleared due to excessive length" > "$LOG_FILE"
+              fi
+          fi
+
+          notify "Pre-shutdown tasks started"
+          log "Pre-shutdown script started"
+
+          log "Starting Vorta backup..."
+          if vorta --create Default 2>>"$LOG_FILE"; then
+              notify "Backup completed successfully"
+              log "Vorta backup completed"
+          else
+              notify "Backup failed! Check the log file"
+              log "Vorta backup failed!"
+          fi
+
+          log "Saving installed packages list..."
+          list-installed > "$NOTES_DIR/installed.txt"
+          log "Installed packages list saved"
+
+          log "Committing changes in Notes directory..."
+          cd "$NOTES_DIR" || exit
+          git add .
+          if git commit -m "Auto backup before shutdown" && git push; then
+              notify "Notes backup committed and pushed"
+              log "Notes backup committed and pushed"
+          else
+              notify "Git commit/push failed! Check the log file"
+              log "Git commit/push failed!"
+          fi
+
+          notify "Pre-shutdown tasks completed. System will shut down now."
+          log "Pre-shutdown tasks completed. System shutting down..."
+          shutdown -h now
+        mode: "0755"
+
+    - name: Create systemd service for pre-shutdown
+      copy:
+        dest: /etc/systemd/system/pre-shutdown.service
+        content: |
+          [Unit]
+          Description=Run pre-shutdown tasks
+          DefaultDependencies=no
+          Before=shutdown.target reboot.target halt.target
+
+          [Service]
+          Type=oneshot
+          ExecStart=/usr/local/bin/pre-shutdown.sh
+          RemainAfterExit=true
+
+          [Install]
+          WantedBy=halt.target reboot.target shutdown.target
+        mode: "0644"
+
+    - name: Reload systemd daemon
+      command: systemctl daemon-reload
+
+    - name: Enable and start pre-shutdown service
+      systemd:
+        name: pre-shutdown.service
+        enabled: yes
