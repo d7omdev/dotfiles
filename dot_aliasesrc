@@ -1,98 +1,128 @@
-# Basic commands
+
+# =============================
+# General Aliases
+# =============================
 alias c='clear'
-alias l='ls -lh --color=auto --hyperlink'
-alias ls='ls -1 --color=auto --hyperlink'
-alias ll='ls -lha --color=auto --group-directories-first --hyperlink'
-alias ld='ls -lhD --color=auto --hyperlink'
-alias cd="z"
+alias mkdir='mkdir -p'
+alias rm='rmtrash'       # Safe delete using rmtrash
+alias rmdir='rm -rf'     # Force remove directories
+alias su='sudo su'
+alias own='sudo chmod -R 755 /home/$USER/' # Change ownership of home directory
+alias genkey='openssl rand -base64 32'  # Generate a random 32-byte key
+alias ip='curl ifconfig.me'  # Get public IP address
+alias ctl="sudo systemctl"  # Systemctl alias
+alias ctlr="sudo systemctl restart"  # Restart service
+alias ctlst="sudo systemctl status"  # Check service status
+alias ctls="sudo systemctl start"  # Start service
+alias ctlsp="sudo systemctl stop"  # Stop service
+
+# =============================
+# Navigation Aliases
+# =============================
 alias ..='cd ..'
 alias ...='cd ../..'
 alias .3='cd ../../..'
 alias .4='cd ../../../..'
 alias .5='cd ../../../../..'
-alias mkdir='mkdir -p'
-alias rm='rmtrash'
-alias rmdir='rm -rf'
-alias cat="bat"
-alias note='v -c "execute \"ObsidianNew \" . input(\"Enter a note name: \")"'
-alias jctl="journalctl -p 3 -xb"
+alias cd='z'  # Use zoxide for smart directory jumping
 
-# Package management
-alias un='yay -R'           # Uninstall a package
-alias up='yay -Syu'            # Update package list and upgrade all packages
-alias list-installed='yay -Qe'     # List explicitly installed packages
-alias search='yay -Ss'             # Search for a package in the repositories
-alias cleanup='yay -Rns $(yay -Qdtq)'  # Clean up orphaned packages
-alias in='yay -S'             # Install a package
-alias rip="expac --timefmt='%Y-%m-%d %T' '%l\t%n %v' | sort | tail -200 | nl" # Recent installed packages
-alias please='sudo $(fc -ln -1)'
-alias si="snap install"
-alias bri="brew install"
-alias brr="brew remove"
+# =============================
+# Listing Aliases
+# =============================
+alias ls='eza --header --icons --time-style relative --no-user'
+alias ll='eza -a -l --header --icons --time-style relative --no-user --sort=type --git'
+alias l='eza -l --header --icons --time-style relative --no-user --sort=type'
+alias lt='eza --icons --tree'
+alias ld='ls -lhD --color=auto --hyperlink'
 
-# pnpm commands
-alias pn="pnpm"
-alias pns="pnpm start"
-alias pni="pnpm i"
-alias pna="pnpm add"
-alias pnr="pnpm rm"
-alias pnu="pnpm up"
-alias pnd="pnpm dev"
+# =============================
+# Package Management
+# =============================
+alias up='yay -Syu && sudo pacman -Rns $(pacman -Qdtq) && sudo paccache -r'  # Full system update & cleanup
+alias in='yay -S'        # Install package
+alias un='yay -R'        # Uninstall package
+alias search='yay -Ss'   # Search for a package
+alias cleanup='yay -Rns $(yay -Qdtq)'  # Remove orphaned packages
+alias rip="expac --timefmt='%Y-%m-%d %T' '%l\t%n %v' | sort | tail -200 | nl"  # Recent installed packages
 
-# bun commands
-alias bs="bun start"
-alias bd="bun dev"
-alias bD="bun debug"
-alias ba="bun add"
-alias bi="bun i"
-alias bu="bun update"
-alias br="bun remove"
-alias bn="bun run"
+# =============================
+# Snap & Brew Package Management
+# =============================
+alias si='snap install'
+alias bri='brew install'
+alias brr='brew remove'
 
-# Git commands
-alias gt="git"
-alias gts="gt status"
-alias gtc="gt clone"
-alias gtp="gt pull"
-alias gta="gt add"
-alias gtC="gt commit"
-alias glog="git log --graph --pretty=format:'%C(yellow)%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr)%Creset' --abbrev-commit --date=relative"
-alias gtr="git remote"
-alias gtP="git push"
+# =============================
+# Git Aliases
+# =============================
+alias gt='git'
+alias gts='git status'
+alias gtc='git clone'
+alias gtp='git pull'
+alias gta='git add'
+alias gtC='git commit'
+alias gtP='git push'
+alias gtr='git remote'
+alias glog='git log --graph --pretty=format:"%C(yellow)%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr)%Creset" --abbrev-commit --date=relative'
 
-# Neovim and code editor commands
-alias v="nvim"
-alias gv="nvim --listen /tmp/godot.pipe"
-alias rc="v ~/.bashrc"
-alias zrc="v ~/.zshrc"
-alias c.="code ."
-alias ff="fzf --preview 'bat --color=always {}' --preview-window '~3' | xargs -I {} nvim {}"
+# =============================
+# Development & Editors
+# =============================
+alias v='nvim'
+alias gv='nvim --listen /tmp/godot.pipe'
+alias rc='v ~/.bashrc'
+alias zrc='v ~/.zshrc'
+alias c.='code .'
+alias conf='chezmoi edit'  # Edit dotfiles
 
-# Other commands
+# =============================
+# PNPM Aliases
+# =============================
+alias pn='pnpm'
+alias pns='pnpm start'
+alias pni='pnpm i'
+alias pna='pnpm add'
+alias pnr='pnpm rm'
+alias pnu='pnpm up'
+alias pnd='pnpm dev'
+
+# =============================
+# Bun Aliases
+# =============================
+alias bs='bun start'
+alias bd='bun dev'
+alias bD='bun debug'
+alias ba='bun add'
+alias bi='bun i'
+alias bu='bun update'
+alias br='bun remove'
+alias bn='bun run'
+
+# =============================
+# Miscellaneous Aliases
+# =============================
 alias vc='code --ozone-platform-hint=wayland --disable-gpu'
-alias ze="zellij"
-alias n="nnn"
-alias f="fastfetch --logo none"
-alias src="source ~/.zshrc"
-alias su="sudo su"
-alias ls="eza --header --icons --time-style relative --no-user"
-alias ll="eza -a -l --header --icons --time-style relative --no-user --sort=type --git"
-alias l="eza -l --header --icons --time-style relative --no-user --sort=type"
-alias lt="eza --icons --tree"
-alias y="yazi"
-alias Cc="xsel --input --clipboard"
-alias Cv="xsel --output --clipboard"
-alias cargo_watch="cargo-watch -qc -x run -x clippy"
-alias e="nautilus . > /dev/null 2>&1 &"
-alias lg="lazygit"
-alias own="sudo chmod -R 755 /home/$whoami/"
-alias df="duf -hide special"
-alias todo="please"
-alias cmoi="chezmoi"
-alias conf="cmoi edit"
-# alias nuget="mono /usr/local/bin/nuget.exe"
+alias ze='zellij'
+alias y='yazi'  # Terminal file manager
+alias jctl='journalctl -p 3 -xb'  # View critical logs
+alias Do='sudo !!'  # Run last command as sudo
+alias cargo_watch='cargo-watch -qc -x run -x clippy'
+alias lg='lazygit'
+alias df='duf -hide special'
+alias note='v -c "execute \"ObsidianNew \" . input(\"Enter a note name: \")"'  # Create a new Obsidian note
 alias resolve='prime-run /opt/resolve/bin/resolve > /dev/null 2>&1 & disown'
 alias dr='~/launch_resolve.sh'
 alias win='/home/d7om/connect-windows.sh'
-alias ai="gh copilot suggest"
-alias genkey="openssl rand -base64 32"
+alias ai='gh copilot suggest'
+
+# =============================
+# Clipboard Shortcuts
+# =============================
+alias Cc='wl-copy'
+alias Cv='wl-paste'
+
+# =============================
+# Reload Shell Configuration
+# =============================
+alias src='source ~/.zshrc'
+
