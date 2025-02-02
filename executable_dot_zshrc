@@ -110,13 +110,15 @@ export FZF_DEFAULT_OPTS=" \
 --info=right"
 
 # fzf-tab configuration
+zstyle ':fzf-tab:complete:*' fzf-preview ''
 zstyle ':completion:*:git-checkout:*' sort false
 zstyle ':fzf-tab:*' use-fzf-default-opts yes
 zstyle ':fzf-tab:*' fzf-command ftb-tmux-popup
-zstyle ':fzf-tab:*' popup-min-size 100 8
+zstyle ':fzf-tab:*' popup-min-size 150 8
+zstyle ':fzf-tab:complete:*' fzf-preview '--preview-window=right:70%'
 zstyle ':completion:*' menu no
 # preview directory's content with eza when completing cd
-zstyle ':fzf-tab:complete:cd:*' fzf-preview 'eza -1 --color=always $realpath'
+# zstyle ':fzf-tab:complete:cd:*' fzf-preview 'eza -1 --color=always $realpath'
 # custom fzf flags
 
 # fzf-tab-source
