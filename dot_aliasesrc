@@ -20,6 +20,7 @@ alias grep="rg"  # Use ripgrep instead of grep
 alias diff="diff-so-fancy | less --tabs=4 -RFX"  # Use diff-so-fancy for git diff
 alias f="fastfetch --logo none" # Fastfetch with no logo
 alias pls='sudo $(fc -ln -1)' # Run last command with sudo
+alias list-installed="yay -Qqe"  # List all installed packages
 
 # =============================
 # Navigation Aliases
