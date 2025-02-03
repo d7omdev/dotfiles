@@ -23,6 +23,7 @@
       - figlet
     aur_packages:
       - pika-backup
+      - git-delta
       - mission-center
       - timeshift
       - grub-btrfs
