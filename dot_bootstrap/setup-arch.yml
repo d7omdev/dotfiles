@@ -35,6 +35,10 @@
       - android-tools
       - appimagelauncher
       - ttf-amiri
+      - noto-color-emoji-fontconfig
+      - noto-fonts
+      - noto-fonts-cjk
+      - noto-fonts-emoji
       - hyprshot-git
       - keyd
       - clipse
