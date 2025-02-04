@@ -411,26 +411,58 @@
             update: yes
           become: false
 
-        - name: Ask user if they want to install the pre-shutdown script
-          ansible.builtin.pause:
-            prompt: |
-              Do you want to install the pre-shutdown script? (yes/no)
+        # - name: Ask user if they want to install the pre-shutdown script
+        #   ansible.builtin.pause:
+        #     prompt: |
+        #       Do you want to install the pre-shutdown script? (yes/no)
+        #
+        #       This script will:
+        #       - Notify you when the shutdown process starts
+        #       - Run a Vorta backup before shutdown
+        #       - Save installed packages to ~/Notes/installed.txt
+        #       - Commit and push changes in your Notes Git repository
+        #       - Log all actions and clear the log if it gets too large
+        #       - Shutdown the system after tasks are completed
+        #
+        #   register: pre_shutdown_confirm
+        #
+        # - name: Set pre-shutdown install flag
+        #   set_fact:
+        #     install_pre_shutdown: "{{ pre_shutdown_confirm.user_input | trim | lower == 'yes' }}"
+        #
+        # - name: Run the pre-shutdown setup playbook
+        #   ansible.builtin.command:
+        #     cmd: "ansible-playbook /home/{{ remote_regular_user }}/.local/share/chezmoi/dot_bootstrap/pre_shutdown.yml --ask-become-pass"
+        #   when: install_pre_shutdown
+        - name: Ask if user wants to install Virt Manager
+          pause:
+            prompt: "Do you want to install and set up Virt Manager? (yes/no)"
+          register: install_virt_manager
 
-              This script will:
-              - Notify you when the shutdown process starts
-              - Run a Vorta backup before shutdown
-              - Save installed packages to ~/Notes/installed.txt
-              - Commit and push changes in your Notes Git repository
-              - Log all actions and clear the log if it gets too large
-              - Shutdown the system after tasks are completed
+        - name: Install Virt Manager and dependencies if confirmed
+          block:
+            - name: Install virt-manager and related packages
+              community.general.pacman:
+                name:
+                  - virt-manager
+                  - libvirt
+                  - qemu
+                  - bridge-utils
+                  - dnsmasq
+                  - vde2
+                  - openvswitch
+                state: present
 
-          register: pre_shutdown_confirm
+            - name: Enable and start libvirtd service
+              systemd:
+                name: libvirtd
+                enabled: yes
+                state: started
 
-        - name: Set pre-shutdown install flag
-          set_fact:
-            install_pre_shutdown: "{{ pre_shutdown_confirm.user_input | trim | lower == 'yes' }}"
+            - name: Add user to libvirt group
+              ansible.builtin.user:
+                name: "{{ remote_regular_user }}"
+                groups: libvirt
+                append: true
 
-        - name: Run the pre-shutdown setup playbook
-          ansible.builtin.command:
-            cmd: "ansible-playbook /home/{{ remote_regular_user }}/.local/share/chezmoi/dot_bootstrap/pre_shutdown.yml --ask-become-pass"
-          when: install_pre_shutdown
+          when: install_virt_manager.user_input | lower == 'yes'
