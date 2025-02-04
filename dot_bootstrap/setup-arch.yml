@@ -96,7 +96,7 @@
           - zsh
           - fzf
           - tmux
-          - kitty-git
+          - kitty
           - openssl
           - gdbm
           - libnsl
