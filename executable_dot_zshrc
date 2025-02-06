@@ -181,6 +181,7 @@ function sesh-sessions() {
 # -----------------------------
 # Keybindings
 # -----------------------------
+alias ff="fzf --preview 'bat --color=always --style=header,grid --line-range :500 {}' --preview-window=right:70% --bind='ctrl-f:page-down,ctrl-b:page-up' --bind='enter:execute(nvim {})'"
 bindkey -s '^f' 'ff\n'
 zle -N sesh-sessions
 bindkey -M emacs '\es' sesh-sessions
