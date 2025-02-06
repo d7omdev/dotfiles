@@ -21,6 +21,7 @@ alias diff="diff-so-fancy | less --tabs=4 -RFX"  # Use diff-so-fancy for git dif
 alias f="fastfetch --logo none" # Fastfetch with no logo
 alias pls='sudo $(fc -ln -1)' # Run last command with sudo
 alias list-installed="yay -Qqe"  # List all installed packages
+alias e="nautilus . > /dev/null 2>&1 &"  # Open current directory in Nautilus
 
 # =============================
 # Navigation Aliases
