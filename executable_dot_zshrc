@@ -235,3 +235,5 @@ source <(ng completion script)
 
 [[ -f ~/.inshellisense/zsh/init.zsh ]] && source ~/.inshellisense/zsh/init.zsh
 
+
+export PATH=$PATH:/home/d7om/.spicetify
