@@ -23,7 +23,7 @@ alias pls='sudo $(fc -ln -1)' # Run last command with sudo
 alias list-installed="yay -Qqe"  # List all installed packages
 alias e="nautilus . > /dev/null 2>&1 &"  # Open current directory in Nautilus
 alias clean="~/Scripts/cleanup.sh"
-alias | sort | awk -F"=" '{printf "\033[1;34m%-15s\033[0m \033[1;32m%-3s\033[0m %s\n", $1, "|", $2}' | fzf --ansi # List all aliases and search
+alias aliases='alias | sort | awk -F"=" '\''{printf "\033[1;34m%-15s\033[0m \033[1;32m%-3s\033[0m %s\n", $1, "|", $2}'\'' | fzf --ansi'
 
 # =============================
 # Navigation Aliases
