@@ -237,3 +237,9 @@ source <(ng completion script)
 
 
 export PATH=$PATH:/home/d7om/.spicetify
+
+# bun completions
+[ -s "/home/d7om/.bun/_bun" ] && source "/home/d7om/.bun/_bun"
+export PATH="/usr/bin:$PATH"
+export PATH="/home/d7om/.config/herd-lite/bin:$PATH"
+export PHP_INI_SCAN_DIR="/home/d7om/.config/herd-lite/bin:$PHP_INI_SCAN_DIR"

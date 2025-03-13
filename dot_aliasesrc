@@ -5,11 +5,10 @@
 alias c='clear'
 alias mkdir='mkdir -p'
 alias rm='rmtrash'       # Safe delete using rmtrash
-alias rmdir='rm -rf'     # Force remove directories
+alias rmdir='\rm -rf'     # Force remove directories
 alias su='sudo su'
 alias own='sudo chmod -R 755 /home/$USER/' # Change ownership of home directory
 alias genkey='openssl rand -base64 32'  # Generate a random 32-byte key
-alias ip='curl ifconfig.me'  # Get public IP address
 alias ctl="sudo systemctl"  # Systemctl alias
 alias ctlr="sudo systemctl restart"  # Restart service
 alias ctlst="sudo systemctl status"  # Check service status
