@@ -21,6 +21,7 @@
       - watchman
       - golang
       - figlet
+      - gcalcli
     aur_packages:
       - pika-backup
       - git-delta
