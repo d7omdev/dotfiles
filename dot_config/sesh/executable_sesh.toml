@@ -3,14 +3,14 @@ name = "Home"
 path = "/home/d7om/"
 
 [[session]]
+name = "Tap 󰵷"
+path = "~/Projects/Work/Tap/"
+startup_command = "~/.config/sesh/scripts/tap.sh"
+
+[[session]]
 name = "Downloads 󰉍"
 path = "~/Downloads"
 startup_command = "ls"
-
-[[session]]
-name = "tmux config "
-path = "/home/d7om"
-startup_command = "nvim .tmux.conf"
 
 [[session]]
 name = "Nvim config "
@@ -18,11 +18,16 @@ path = "~/.config/nvim/"
 startup_command = "v"
 
 [[session]]
+name = "Homelab "
+path = "~/HomeLab/"
+startup_command = "ssh homelab"
+
+[[session]]
 name = "Notes 󰎚"
 path = "~/Notes/"
 startup_command = "nvim +ObsidianQuickSwitch"
 
-[[session]]
-name = "LMS "
-path = "~/Projects/Learning-management-system/"
-startup_command = "~/.config/sesh/scripts/lms.sh"
+# [[session]]
+# name = "LMS "
+# path = "~/Projects/Learning-management-system/"
+# startup_command = "~/.config/sesh/scripts/lms.sh"
