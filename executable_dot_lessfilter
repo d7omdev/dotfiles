@@ -1,0 +1,37 @@
+#!/bin/bash
+
+FILE="$1"
+
+# Ensure the file exists
+if [ ! -e "$FILE" ]; then
+	echo "[Error: '$FILE' does not exist]"
+	exit 1
+fi
+
+# If it's a directory, use eza (or ls if unavailable) with colors
+if [ -d "$FILE" ]; then
+	if command -v eza &>/dev/null; then
+		eza --color=always -l --icons --time-style relative --no-user --sort=type "$FILE"
+	else
+		ls --color=always -lhA "$FILE"
+	fi
+	exit 0
+fi
+
+# If it's a regular file, check if it's binary
+if [ -f "$FILE" ]; then
+	if grep -Iq . "$FILE"; then # Detects if the file is text-based
+		if command -v bat &>/dev/null; then
+			bat --paging=never --style=plain --color=always "$FILE"
+		else
+			cat "$FILE"
+		fi
+	else
+		echo "[File '$FILE' is a binary file]"
+	fi
+	exit 0
+fi
+
+# Fallback for other file types
+echo "[Unsupported file type]"
+exit 1

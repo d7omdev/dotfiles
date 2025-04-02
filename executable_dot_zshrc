@@ -109,25 +109,27 @@ export FZF_DEFAULT_OPTS=" \
 --marker='|' --pointer='◆' --separator='─' --scrollbar='│|' \
 --info=right"
 
-# fzf-tab configuration
-zstyle ':fzf-tab:complete:*' fzf-preview ''
-zstyle ':completion:*:git-checkout:*' sort false
-zstyle ':fzf-tab:*' use-fzf-default-opts yes
-zstyle ':fzf-tab:*' fzf-command ftb-tmux-popup
-zstyle ':fzf-tab:*' popup-min-size 150 8
-zstyle ':fzf-tab:complete:*' fzf-preview '--preview-window=right:70%'
-zstyle ':completion:*' menu no
-# preview directory's content with eza when completing cd
-# zstyle ':fzf-tab:complete:cd:*' fzf-preview 'eza -1 --color=always $realpath'
-# custom fzf flags
-
-# fzf-tab-source
+# Load fzf-tab-source plugin first
 [[ ! -d ${TMPPREFIX:-/tmp/zsh}-fzf-tab-$USER ]] && mkdir -p ${TMPPREFIX:-/tmp/zsh}-fzf-tab-$USER
 if [[ ! -d $HOME/Packages/fzf-tab-source ]]; then
     mkdir -p $HOME/Packages/
     git clone https://github.com/Freed-Wu/fzf-tab-source $HOME/Packages/fzf-tab-source
 fi
 source $HOME/Packages/fzf-tab-source/fzf-tab-source.plugin.zsh
+
+
+# fzf-tab configuration
+zstyle ':completion:*:git-checkout:*' sort false
+# zstyle ':fzf-tab:complete:*:*' fzf-preview 'bat --color=always --pager=never --style=plain ${(Q)realpath}'
+zstyle ':fzf-tab:*' use-fzf-default-opts no
+zstyle ':fzf-tab:*' fzf-command ftb-tmux-popup
+zstyle ':fzf-tab:*' popup-min-size 150 8
+zstyle ':fzf-tab:*' popup-fzf-opts '--preview-window=down:40% --height=80%'
+zstyle ':completion:*' menu no
+
+# Force preview window position
+export FZF_DEFAULT_OPTS="--preview-window=down:40%"
+
 
 # -----------------------------
 # Custom Functions
@@ -177,6 +179,24 @@ function sesh-sessions() {
         sesh connect $session
     }
 }
+
+alias untar='extract() {
+  if [ -f "$1" ]; then
+	case "$1" in
+	  *.tar.bz2)   tar xjf "$1"   ;;
+	  *.tar.gz)    tar xzf "$1"   ;;
+	  *.tar.xz)    tar xJf "$1"   ;;
+	  *.tar.zst)   tar --zstd -xf "$1"   ;;
+	  *.tar)       tar xf "$1"    ;;
+	  *.zip)       unzip "$1"     ;;
+	  *.7z)        7z x "$1"      ;;
+	  *.rar)       unrar x "$1"   ;;
+	  *)           echo "Unsupported file format" ;;
+	esac
+  else
+	echo "'$1' is not a valid file"
+  fi
+}; extract'
 
 # -----------------------------
 # Keybindings
@@ -243,3 +263,5 @@ export PATH=$PATH:/home/d7om/.spicetify
 export PATH="/usr/bin:$PATH"
 export PATH="/home/d7om/.config/herd-lite/bin:$PATH"
 export PHP_INI_SCAN_DIR="/home/d7om/.config/herd-lite/bin:$PHP_INI_SCAN_DIR"
+export LESSOPEN="|~/.lessfilter %s"
+
