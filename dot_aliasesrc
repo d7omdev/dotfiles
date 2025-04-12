@@ -14,7 +14,7 @@ alias ctlr="sudo systemctl restart"  # Restart service
 alias ctlst="sudo systemctl status"  # Check service status
 alias ctls="sudo systemctl start"  # Start service
 alias ctlsp="sudo systemctl stop"  # Stop service
-alias cat="bat"  # Use bat instead of cat
+alias cat="bat --style=header"  # Use bat instead of cat
 alias grep="rg"  # Use ripgrep instead of grep
 alias diff="diff-so-fancy | less --tabs=4 -RFX"  # Use diff-so-fancy for git diff
 alias f="fastfetch --logo none" # Fastfetch with no logo
@@ -23,6 +23,7 @@ alias list-installed="yay -Qqe"  # List all installed packages
 alias e="nautilus . > /dev/null 2>&1 &"  # Open current directory in Nautilus
 alias clean="~/Scripts/cleanup.sh"
 alias aliases='alias | sort | awk -F"=" '\''{printf "\033[1;34m%-15s\033[0m \033[1;32m%-3s\033[0m %s\n", $1, "|", $2}'\'' | fzf --ansi'
+alias push_alert='function _push_alert(){ curl -d "$1" "http://192.168.18.81:7200/Alerts"; }; _push_alert'
 
 # =============================
 # Navigation Aliases

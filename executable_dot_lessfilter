@@ -3,6 +3,11 @@
 FILE="$1"
 
 # Ensure the file exists
+
+if [ -z "$FILE" ]; then
+	exit 1
+fi
+
 if [ ! -e "$FILE" ]; then
 	echo "[Error: '$FILE' does not exist]"
 	exit 1

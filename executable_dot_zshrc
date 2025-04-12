@@ -81,10 +81,7 @@ esac
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
 [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"
 
-# Linuxbrew
 eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
-
-# Zoxide
 eval "$(zoxide init zsh)"
 
 # Bun completions
@@ -120,16 +117,12 @@ source $HOME/Packages/fzf-tab-source/fzf-tab-source.plugin.zsh
 
 # fzf-tab configuration
 zstyle ':completion:*:git-checkout:*' sort false
-# zstyle ':fzf-tab:complete:*:*' fzf-preview 'bat --color=always --pager=never --style=plain ${(Q)realpath}'
 zstyle ':fzf-tab:*' use-fzf-default-opts no
 zstyle ':fzf-tab:*' fzf-command ftb-tmux-popup
-zstyle ':fzf-tab:*' popup-min-size 150 8
-zstyle ':fzf-tab:*' popup-fzf-opts '--preview-window=down:40% --height=80%'
+zstyle ':fzf-tab:*' popup-min-size 100 8
+zstyle ':completion:*' list-colors ${(s.:.)LS_COLORS}
+zstyle ':fzf-tab:*' popup-fzf-opts '--preview-window=down:25% --height=50%'
 zstyle ':completion:*' menu no
-
-# Force preview window position
-export FZF_DEFAULT_OPTS="--preview-window=down:40%"
-
 
 # -----------------------------
 # Custom Functions
@@ -242,20 +235,15 @@ setopt extended_glob
 unsetopt correct
 
 # Source additional configs
-source ~/.aliasesrc
 
-# Starship prompt
 eval "$(starship init zsh)"
 eval "$(batman --export-env)"
+# eval "$(fasd --init)"
 
 
-# Load Angular CLI autocompletion.
-source <(ng completion script)
-
+source ~/.aliasesrc
 
 [[ -f ~/.inshellisense/zsh/init.zsh ]] && source ~/.inshellisense/zsh/init.zsh
-
-
 export PATH=$PATH:/home/d7om/.spicetify
 
 # bun completions
