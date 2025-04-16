@@ -52,6 +52,7 @@ export NVM_DIR="$HOME/.config/nvm"
 export ANDROID_HOME=$HOME/Android/Sdk
 export DOTNET_ROOT=$HOME/.dotnet
 export PATH="$PATH:$DOTNET_ROOT:$DOTNET_ROOT/tools"
+export NVIM_LISTEN_ADDRESS=/tmp/nvimsocket
 
 # Android paths
 export PATH=$PATH:$ANDROID_HOME/emulator
@@ -253,3 +254,4 @@ export PATH="/home/d7om/.config/herd-lite/bin:$PATH"
 export PHP_INI_SCAN_DIR="/home/d7om/.config/herd-lite/bin:$PHP_INI_SCAN_DIR"
 export LESSOPEN="|~/.lessfilter %s"
 
+export TERM=xterm-256color-italic
