@@ -38,10 +38,10 @@ alias cd='z'  # Use zoxide for smart directory jumping
 # =============================
 # Listing Aliases
 # =============================
-alias ls='eza --header --icons --time-style relative --no-user'
-alias ll='eza -a -l --header --icons --time-style relative --no-user --sort=type --git'
-alias l='eza -l --header --icons --time-style relative --no-user --sort=type'
-alias lt='eza --icons --tree'
+alias ls='eza --header --icons --time-style relative --no-user --hyperlink'
+alias ll='eza -a -l --header --hyperlink --icons --time-style relative --no-user --sort=type --git'
+alias l='eza -l --header --hyperlink --icons --time-style relative --no-user --sort=type'
+alias lt='eza --icons --tree --hyperlink'
 alias ld='ls -lhD --color=auto --hyperlink'
 
 # =============================
@@ -77,7 +77,9 @@ alias glog='git log --graph --pretty=format:"%C(yellow)%h%Creset -%C(yellow)%d%C
 # =============================
 # Development & Editors
 # =============================
-alias v='nvim --listen /tmp/nvimsocket'
+alias nano="nvim"
+alias v="nvim"
+alias vi="nvim --listen /tmp/nvimsocket"
 alias gv='nvim --listen /tmp/godot.pipe'
 alias rc='v ~/.bashrc'
 alias zrc='v ~/.zshrc'
@@ -139,4 +141,31 @@ alias Cv='wl-paste'
 # Reload Shell Configuration
 # =============================
 alias src='source ~/.zshrc'
+
+# =============================
+# Custom Aliases
+# =============================
+
+function untar() {
+  for f in "$@"; do
+    if [ ! -f "$f" ]; then
+      echo "Error: File not found: $f"
+      continue
+    fi
+
+    dir=${f%.tar*}
+    mkdir -p "$dir"
+
+    case "$f" in
+      *.tar)      tar -xf "$f" -C "$dir" ;;
+      *.tar.gz|*.tgz)  tar -xzf "$f" -C "$dir" ;;
+      *.tar.bz2|*.tbz2) tar -xjf "$f" -C "$dir" ;;
+      *.tar.xz)   tar -xJf "$f" -C "$dir" ;;
+      *.tar.zst)  tar --zstd -xf "$f" -C "$dir" ;;
+      *)          echo "Error: Unsupported file format: $f"; continue ;;
+    esac
+
+    echo "Extracted $f to $dir/"
+  done
+}
 
