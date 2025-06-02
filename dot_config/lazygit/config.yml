@@ -38,7 +38,6 @@ git:
     # uncomment if you want to use difftastic
     # externalDiffCommand: difft --color=always
     # useConfig: true
-
 # based on: https://github.com/jesseduffield/lazygit/issues/996#issuecomment-1624329763
 os:
   edit: 'nvim --server "$NVIM" --remote-tab {{filename}}'
@@ -78,7 +77,7 @@ customCommands:
     command: 'nvr --servername $CUSTOM_NVIM_LISTEN_ADDRESS --nostart --remote {{ .SelectedFile.Name }} -c "DiffviewOpen" | tmux select-window -t {start}\; if-shell -F "#{&&:#{>:#{pane_index},0},#{window_zoomed_flag}}" "resize-pane -Z" "" \; select-pane -t {top-left}'
     context: "files"
     loadingText: "loading DiffviewOpen"
-    subprocess: true
+    output: terminal
   # From commits, extract diff into /tmp/<sha>.patch file
   - key: "<c-q>"
     command: git diff {{.SelectedCommit.Sha}}^! > /tmp/{{.SelectedCommit.Sha}}.patch
@@ -90,19 +89,19 @@ customCommands:
     command: 'nvr --servername $CUSTOM_NVIM_LISTEN_ADDRESS --nostart --remote {{ .SelectedFile.Name }} -c "DiffviewOpen" | tmux select-window -t {start}\; if-shell -F "#{&&:#{>:#{pane_index},0},#{window_zoomed_flag}}" "resize-pane -Z" "" \; select-pane -t {top-left}'
     context: "files"
     loadingText: "loading DiffviewOpen"
-    subprocess: true
+    output: terminal
   # From commits, push a specific commit (and any preceding)
   - key: "P"
     description: "Custom: Force push a specific commit (and any preceding)"
     command: "git push --force {{.SelectedRemote.Name}} {{.SelectedCommit.Sha}}:{{.SelectedLocalBranch.Name}}"
     context: "commits"
     loadingText: "Pushing commit..."
-    stream: true
     prompts:
       - type: "confirm"
         key: "Confirm"
         title: "Force push specific commit"
         body: "Are you sure you want to force push?"
+    output: log
   # From commits, open as a PR review
   - key: "D"
     description: "Custom: Diff commit against parent commit"
