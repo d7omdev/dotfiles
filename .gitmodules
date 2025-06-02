@@ -1,8 +1,0 @@
-[submodule "hypr"]
-	path = hypr
-	url = https://github.com/d7omdev/hypr
-	branch = main
-[submodule "ags"]
-	path = ags
-	url = https://github.com/d7omdev/ags
-	branch = main
