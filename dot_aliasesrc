@@ -15,7 +15,7 @@ alias ctlst="sudo systemctl status"  # Check service status
 alias ctls="sudo systemctl start"  # Start service
 alias ctlsp="sudo systemctl stop"  # Stop service
 alias cat="bat --style=header"  # Use bat instead of cat
-alias grep="rg"  # Use ripgrep instead of grep
+# alias grep="rg"  # Use ripgrep instead of grep
 alias diff="diff-so-fancy | less --tabs=4 -RFX"  # Use diff-so-fancy for git diff
 alias f="fastfetch --logo none" # Fastfetch with no logo
 alias pls='sudo $(fc -ln -1)' # Run last command with sudo
@@ -34,6 +34,7 @@ alias .3='cd ../../..'
 alias .4='cd ../../../..'
 alias .5='cd ../../../../..'
 alias cd='z'  # Use zoxide for smart directory jumping
+alias zz='cd "$(eza --icons --group-directories-first -a | fzf --height 40% --layout=reverse --border --preview "eza --icons {}" | awk "{print \$NF}")"'  # Change directory using fzf with eza preview
 
 # =============================
 # Listing Aliases
@@ -65,6 +66,7 @@ alias brr='brew remove'
 # Git Aliases
 # =============================
 alias gt='git'
+alias gp="gitpick"
 alias gts='git status'
 alias gtc='git clone'
 alias gtp='git pull'
