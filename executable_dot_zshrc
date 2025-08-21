@@ -256,3 +256,6 @@ export PHP_INI_SCAN_DIR="/home/d7om/.config/herd-lite/bin:$PHP_INI_SCAN_DIR"
 export LESSOPEN="|~/.lessfilter %s"
 
 unalias zi
+
+# opencode
+export PATH=/home/d7om/.opencode/bin:$PATH

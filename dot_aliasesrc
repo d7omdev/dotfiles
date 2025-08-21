@@ -119,7 +119,6 @@ alias bn='bun run'
 # =============================
 # Miscellaneous Aliases
 # =============================
-alias vc='code --ozone-platform-hint=wayland --disable-gpu'
 alias ze='zellij'
 alias y='yazi'  # Terminal file manager
 alias jctl='journalctl -p 3 -xb'  # View critical logs
