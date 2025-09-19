@@ -1,0 +1,13 @@
+#!/usr/bin/env fish
+
+# 重启Hyprland配置
+hyprctl reload
+#sleep 1s
+# 退出当前运行的AGS
+#ags -q
+
+# 重新启动AGS
+#ags &
+
+# 启动hyprshde
+hyprshade auto

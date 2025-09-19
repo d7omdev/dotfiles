@@ -1,0 +1,194 @@
+"$schema" = 'https://starship.rs/config-schema.json'
+
+format = """
+
+[ ](color1)\
+$os\
+$username\
+[](bg:color4 fg:color1)\
+$directory\
+[](fg:color4 bg:color5)\
+$git_branch\
+$git_status\
+[](fg:color5 bg:color6)\
+$docker_context\
+$c\
+$rust\
+$golang\
+$nodejs\
+$php\
+$java\
+$kotlin\
+$haskell\
+$python\
+$time\
+[](fg:color6 bg:color8)\
+$cmd_duration\
+[ ](fg:color8)\
+$line_break$character"""
+
+add_newline = false
+palette = 'colors'
+
+[palettes.colors]
+color1 = "{{colors.primary.default.hex}}"            # OS & username background
+color2 = "{{colors.on_primary.default.hex}}"         # OS & username foreground
+color3 = "{{colors.on_surface_variant.default.hex}}" # Directory foreground
+color4 = "{{colors.surface_container.default.hex}}"  # Directory background
+color5 = "{{colors.surface_variant.default.hex}}"    # Git branch & language bg
+color6 = "{{colors.surface.default.hex}}"            # Docker & later modules bg
+color7 = "{{colors.primary.default.hex}}"            # Last block background
+color8 = "{{colors.tertiary.default.hex}}"           # CMD duration background
+color9 = "{{colors.secondary.default.hex}}"          # Extra highlights
+green = "{{colors.secondary.default.hex}}"
+purple = "{{colors.tertiary.default.hex}}"
+yellow = "#f9e2af"
+mustard = "#af8700"
+
+[cmd_duration]
+min_time = 2000
+style = "bg:color8 fg:black bold"
+format = "[$duration]($style)"
+
+[os]
+disabled = false
+style = "bg:color1 fg:color2"
+
+[os.symbols]
+Windows = "󰍲"
+Ubuntu = "󰕈"
+SUSE = ""
+Raspbian = "󰐿"
+Mint = "󰣭"
+Macos = ""
+Manjaro = ""
+Linux = "󰣇 "
+Gentoo = "󰣨"
+Fedora = "󰣛"
+Alpine = ""
+Amazon = ""
+Android = ""
+Arch = "󰣇 "
+CachyOS = "󰣇 "
+Artix = "󰣇"
+CentOS = ""
+Debian = "󰣚"
+Redhat = "󱄛"
+RedHatEnterprise = "󱄛"
+
+[username]
+show_always = false
+format = "[$user]($style)"
+style_user = "bg:color1 fg:color2"
+style_root = "bg:color1 fg:color2"
+
+[directory]
+format = "[ $path ]($style)"
+style = "fg:color3 bg:color4"
+truncation_length = 3
+truncate_to_repo = true
+truncation_symbol = "…/"
+
+[directory.substitutions]
+"Documents" = "󰈙 "
+"Downloads" = " "
+"Music" = "󰝚 "
+"Pictures" = " "
+"Projects" = "󰲋 "
+"/media/Main/Linux/Projects/" = "󰲋 "
+"/media/Main/Linux/Downloads/" = " "
+"/media/Main/Linux/" = "~/D"
+
+[git_branch]
+symbol = ""
+style = "bg:color5"
+format = '[[ $symbol $branch ](fg:color1 bg:color5)]($style)'
+
+[git_status]
+style = "bg:color5"
+modified = '*${count}'
+ahead = "↑${count} "
+behind = "↓${count} "
+diverged = "↕${ahead_count} ${behind_count}"
+untracked = "?${count} "
+conflicted = "≠${count} "
+staged = "✓${count} "
+stashed = "󰸐${count} "
+format = """\
+[$ahead_behind](bold color2 bg:color5)\
+[$stashed](bold color3 bg:color5)\
+[$behind_behind](bold color2 bg:color5)\
+[$diverged](bold yellow bg:color5)\
+[$conflicted](bold color2 bg:color5)\
+[$modified](bold purple bg:color5)\
+[$untracked](bold color8 bg:color5)\
+[$staged](bold color9 bg:color5)\
+"""
+
+[nodejs]
+symbol = "󰎙"
+style = "bg:color6"
+format = '[[ $symbol ](fg:green bg:color6)]($style)'
+
+[c]
+symbol = " "
+style = "bg:color6"
+format = '[[ $symbol ](fg:color2 bg:color6)]($style)'
+
+[rust]
+symbol = ""
+style = "bg:color6"
+format = '[[ $symbol ](fg:color9 bg:color6)]($style)'
+
+[golang]
+symbol = ""
+style = "bg:color6"
+format = '[[ $symbol ](fg:color8 bg:color6)]($style)'
+
+[php]
+symbol = ""
+style = "bg:color6"
+format = '[[ $symbol ](fg:color2 bg:color6)]($style)'
+
+[java]
+symbol = " "
+style = "bg:color6"
+format = '[[ $symbol ](fg:color2 bg:color6)]($style)'
+
+[kotlin]
+symbol = ""
+style = "bg:color6"
+format = '[[ $symbol ](fg:color2 bg:color6)]($style)'
+
+[haskell]
+symbol = ""
+style = "bg:color6"
+format = '[[ $symbol ](fg:color2 bg:color6)]($style)'
+
+[python]
+symbol = ""
+style = "bg:color6"
+format = '[[ $symbol $virtualenv ](fg:yellow bg:color6)]($style)'
+
+[docker_context]
+symbol = ""
+style = "bg:color6"
+format = '[[ $symbol($context) ](fg:color8 bg:color6)]($style)'
+
+[time]
+disabled = true
+time_format = "%R"
+style = "bg:color4"
+format = '[[   $time ](fg:color2 bg:purple)]($style) '
+
+[line_break]
+disabled = false
+
+[character]
+disabled = false
+success_symbol = ' [](bold fg:color9)'
+error_symbol = ' [](bold fg:color2)'
+vimcmd_symbol = ' [](bold fg:color8)'
+vimcmd_replace_one_symbol = ' [](bold fg:color2)'
+vimcmd_replace_symbol = ' [](bold fg:color2)'
+vimcmd_visual_symbol = ' [](bold fg:color1)'
